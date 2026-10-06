@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <style>
+        .pole {
+            border: 1px solid;
+            width: 25px;
+            height: 25px;
+            float: left;
+            border-collapse: inherit;
+            box-sizing: border-box;
+        }
+
+        #cont div {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        let gameArray = [];
+
+        function init() {
+            const container = document.createElement("div");
+            container.id = "cont"
+            const input = document.createElement("input");
+            input.value = 10;
+            const txt = document.createTextNode("Rozmiar planszy:")
+            const form = document.createElement("div");
+            const button = document.createElement("button");
+            button.innerText = "GENERUJ!";
+            button.onclick = function () {
+                const bombs = 10;
+                if (!isNaN(input.value)) {
+                    generujTabliceGry(input.value);
+                    losujBomby(bombs);
+                    generujHTML();
+                } else alert("Wpisz liczbę!");
+            }
+            form.append(txt, input, button);
+            document.body.append(form, container);
+        }
+
+        function generujTabliceGry(n) {
+            gameArray = []
+            for (let i = 0; i < n; i++) {
+                gameArray[i] = []
+                for (let j = 0; j < n; j++) {
+                    gameArray[i][j] = 0;
+                }
+            }
+        }
+
+        function flag_tile() {
+            tile_flagged = false
+            if (!tile_flagged) {
+                this.style.backgroundColor = 'green'
+                tile_flagged = true
+            } else {
+                this.style.backgroundColor = ''
+            }
+        }
+        function losujBomby(b) {
+            let zaminowane_pola = []
+            let licznikBomb = 0;
+            do {
+                const x = Math.floor(Math.random() * gameArray.length);
+                const y = Math.floor(Math.random() * gameArray.length);
+                if (gameArray[y][x] == 0) {
+                    gameArray[y][x] = 1;
+                    let mine = { x, y }
+                    zaminowane_pola.push(mine)
+                    licznikBomb++;
+                }
+            } while (licznikBomb < b)
+            console.table(gameArray, zaminowane_pola)
+        }
+
+        function generujHTML() {
+            const cont = document.getElementById("cont")
+            cont.innerHTML = ''
+            cont.style.width = (gameArray.length * 25) + "px";
+            for (let i = 0; i < gameArray.length; i++) {
+                for (let j = 0; j < gameArray[i].length; j++) {
+                    const div = document.createElement("div");
+                    div.setAttribute("data-x", j);
+                    div.setAttribute("data-y", i);
+                    div.classList.add("pole");
+
+                    div.addEventListener('click', function () {
+                        let bomb_x = this.dataset.x
+                        let bomb_y = this.dataset.y
+                        if (gameArray[bomb_y][bomb_x] == 1) {
+                            game_finished()
+                        }
+                    })
+
+                    div.addEventListener('contextmenu', function (e) {
+                        e.preventDefault()
+
+                        let isFlagged = this.style.backgroundColor === 'green';
+                        if (!isFlagged) {
+                            this.style.backgroundColor = 'green'
+                        } else {
+                            this.style.backgroundColor = ''
+                        }
+                    })
+
+                    cont.append(div);
+                }
+            }
+        }
+
+        function policzbombysasiednie() {
+            console.log(this, this.dataset.x, this.dataset.y)
+        }
+
+        function game_finished() {
+            alert('Gra przegrana')
+            for (let i = 0; i < gameArray.length; i++) {
+                for (let j = 0; j < gameArray[i].length; j++) {
+                    if (gameArray[i][j] == 1) {
+                        let tile = document.querySelector(`[data-x="${j}"][data-y="${i}"]`);
+                        if (tile) {
+                            tile.style.backgroundColor = 'red';
+                        }
+                    }
+                }
+            }
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
