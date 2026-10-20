@@ -7,7 +7,7 @@
     <title>Minesweeper</title>
 
     <style>
-        .pole {
+        .tile {
             border: 1px solid;
             width: 25px;
             height: 25px;
@@ -19,211 +19,368 @@
             cursor: pointer;
             user-select: none;
         }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        #cont div {
-            box-sizing: border-box;
+        #formularz {
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            padding: 15px;
+            margin: 1em;
+        }
+        #formularz > * {
+            margin-bottom: 1em;
         }
     </style>
 </head>
 
 <body>
+
+
     <script>
-        let game_ongoing = true;
-        let gameArray = [];
-        let zaminowane_pola = [];
+        
+        let isGameOngoing = true; 
+        
+        let gameBoard = []; // 
+        let minePositions = [];
+
+        let revealedTilesCount = 0;
+        let tilesToWin;
+
+        let game_beginign = 0
+        let timer_interval = null
+
+        //DO ZROBIENIA:
+        // Udoskonalić funkcje wygraj przegraj
+        // FUnkcja wygraj nie istnieje i jest zawarta bezposrednio w kodzie
+        // Funkjc aygraj nie pokazuje min 
+        // Funcja timer Zrobiona
+
+        
+        //HTML 
+        
+        
+        // Inicjalizacja Formularza
 
         function init() {
-            const container = document.createElement("div");
-            container.id = "cont";
+            const boardContainer = document.createElement("div");
+            boardContainer.id = "board";
 
-            const input = document.createElement("input");
-            input.type = "number";
-            input.min = 4;
-            input.value = 10;
+            const boardSizeInput = document.createElement("input");
+            boardSizeInput.type = "number";
+            boardSizeInput.min = 4;
+            boardSizeInput.value = 10;
 
-            const txt = document.createTextNode("Rozmiar planszy: ");
-            const form = document.createElement("div");
-            const button = document.createElement("button");
+            const mineCountInput = document.createElement("input");
+            mineCountInput.type = "number";
+            mineCountInput.min = 1;
+            mineCountInput.value = 10;
 
-            button.innerText = "GENERUJ!";
+            const controlsContainer = document.createElement("div");
+            controlsContainer.id = "formularz"
 
-            button.onclick = function () {
-                const bombs = 10;
-                const size = Number(input.value);
+            const boardSizeLabel = document.createTextNode("Rozmiar planszy: ");
+            const mineCountLabel = document.createTextNode("Bomby: ");
+            const generateButton = document.createElement("button");
+
+            const timer = document.createElement("div")
+            timer.id = 'timer'
+
+            generateButton.innerText = "GENERUJ!";
+
+            generateButton.onclick = function () {
+                tilesToWin = (Number(boardSizeInput.value) ** 2) - Number(mineCountInput.value);
+                revealedTilesCount = 0;
+                console.log(tilesToWin);
+
+                update_time(timer)
+
+                const mineCount = Number(mineCountInput.value);
+                const boardSize = Number(boardSizeInput.value);
 
                 if (
-                    !Number.isInteger(size) ||
-                    size < 4 ||
-                    size * size <= bombs
+                    !Number.isInteger(boardSize) ||
+                    boardSize < 4 ||
+                    boardSize * boardSize <= mineCount
                 ) {
                     alert("Wpisz poprawny rozmiar planszy!");
                     return;
                 }
 
-                game_ongoing = true;
+                if (
+                    !Number.isInteger(mineCount) ||
+                    mineCount <= 0
+                ) {
+                    alert("Wpisz Wiecej niz jedna bombe");
+                    return;
+                }
 
-                generujTabliceGry(size);
-                losujBomby(bombs);
-                generujHTML();
+                isGameOngoing = true;
+
+                generateGameBoard(boardSize);
+                placeMines(mineCount);
+                renderBoard();
             };
 
-            form.append(txt, input, button);
-            document.body.append(form, container);
+            controlsContainer.append(
+                boardSizeLabel,
+                boardSizeInput,
+                mineCountLabel,
+                mineCountInput,
+                generateButton,
+                timer
+            );
+            document.body.append(controlsContainer, boardContainer);
         }
 
-        function generujTabliceGry(BoardSize) {
-            gameArray = [];
+        //Generowanie planszy 2D
 
-            for (let row = 0; row < BoardSize; row++) {
-                gameArray[row] = [];
+        function generateGameBoard(boardSize) {
+            gameBoard = [];
 
-                for (let column = 0; column < BoardSize; column++) {
-                    gameArray[row][column] = 0;
+            for (let row = 0; row < boardSize; row++) {
+                gameBoard[row] = [];
+
+                for (let column = 0; column < boardSize; column++) {
+                    gameBoard[row][column] = 0;
                 }
             }
         }
 
-        function flag_tile() {
-            let isFlagged = this.style.backgroundColor === 'green';
 
-            if (!isFlagged) {
-                this.style.backgroundColor = 'green';
-            } else {
-                this.style.backgroundColor = '';
-            }
-        }
+        //PLANSZA
 
-        function count_bombs_around(x, y) {
-            let bombs_around = 0;
+        //Rozmieszczenie min
 
-            for (let tile_row = -1; tile_row <= 1; tile_row++) {
-                for (let tile_column = -1; tile_column <= 1; tile_column++) {
+        function placeMines(mineCount) {
+            minePositions = []; //RESET POZYCJI MIN
 
+            while (minePositions.length < mineCount) { 
+                const column = Math.floor(Math.random() * gameBoard.length);
+                const row = Math.floor(Math.random() * gameBoard.length);
 
-                    if (tile_row === 0 && tile_column === 0) {
-                        continue;
-                    }
+                if (gameBoard[row][column] === 0) {
+                    gameBoard[row][column] = 1;
 
-                    let new_x = Number(x) + tile_column;
-                    let new_y = Number(y) + tile_row;
-
-                    if (
-                        new_x >= 0 && new_x < gameArray.length &&
-                        new_y >= 0 && new_y < gameArray.length
-                    ) {
-                        if (gameArray[new_y][new_x] === 1) {
-                            bombs_around++;
-                        }
-                    }
+                    const minePosition = { column, row };
+                    minePositions.push(minePosition);
                 }
             }
 
-            return bombs_around;
+            console.table(gameBoard);
+            console.log(minePositions);
         }
 
-        function losujBomby(bombcount) {
-            zaminowane_pola = [];
+        //Inicjacja planszy
 
-            while (zaminowane_pola.length < bombcount) {
-                const x = Math.floor(Math.random() * gameArray.length);
-                const y = Math.floor(Math.random() * gameArray.length);
+        function renderBoard() {
+            const boardContainer = document.getElementById("board");
 
-                if (gameArray[y][x] === 0) {
-                    gameArray[y][x] = 1;
+            
 
-                    let mine = { x, y };
-                    zaminowane_pola.push(mine);
-                }
-            }
+            boardContainer.innerHTML = "";
 
-            console.table(gameArray);
-            console.log(zaminowane_pola);
-        }
+            boardContainer.style.width = (gameBoard.length * 25) + "px";
 
-        function generujHTML() {
-            const cont = document.getElementById("cont");
+            for (let row = 0; row < gameBoard.length; row++) { 
+                for (let column = 0; column < gameBoard[row].length; column++) {
 
-            cont.innerHTML = '';
-            cont.style.width = (gameArray.length * 25) + "px";
+                    const tile = document.createElement("div");
 
-            for (let i = 0; i < gameArray.length; i++) {
-                for (let j = 0; j < gameArray[i].length; j++) {
-                    const div = document.createElement("div");
+                    tile.setAttribute("data-column", column);
+                    tile.setAttribute("data-row", row);
 
-                    div.setAttribute("data-x", j);
-                    div.setAttribute("data-y", i);
-                    div.dataset.revealed = "false";
-                    div.classList.add("pole");
+                    tile.dataset.revealed = "false";
 
-                    div.addEventListener('click', function () {
-                        if (!game_ongoing) return;
+                    tile.classList.add("tile");
 
-                        if (this.dataset.revealed === 'true') return;
+                    tile.addEventListener("click", function () {
+                        
+                        if (!isGameOngoing) return; //Czy gra się toczy/ NIE zwróć nic
 
-                        if (this.style.backgroundColor === 'green') return;
+                        if (this.dataset.revealed === "true") return; //Czy pole jest odkryte / TAK zwróć nic
 
-                        let bomb_x = Number(this.dataset.x);
-                        let bomb_y = Number(this.dataset.y);
+                        if (this.style.backgroundColor === "green") return; // Czy pole jest oflagowane / TAK zwróć nic
 
-                     
+                        const tileColumn = Number(this.dataset.column);
+                        const tileRow = Number(this.dataset.row);
 
-                        if (gameArray[bomb_y][bomb_x] === 1) {
-                            game_finished();
+                        if (gameBoard[tileRow][tileColumn] === 1) {
+                            gameLost();
                             return;
                         }
 
-                        let bombs_around = count_bombs_around(
-                            bomb_x,
-                            bomb_y
-                        );
+                        revealTile(tileRow, tileColumn); //Odsłonięcie pól wokół zaznczonego pola
 
-                        this.dataset.revealed = 'true';
-                        this.style.backgroundColor = '#ddd';
+                        console.log(revealedTilesCount);
 
-                        if (bombs_around > 0) {
-                            this.innerText = bombs_around;
+                        if (tilesToWin === revealedTilesCount) { // Primytywna funckja wygranej
+
+                            finishingTime = stop_timer()
+
+                        alert(`Gra WYGRANAA GRATULACJE. Twoj końcowy czas to  ${finishingTime.minutes}:${finishingTime.seconds}`);
+                            isGameOngoing = false;
+                            return;
                         }
                     });
 
-                    div.addEventListener('contextmenu', function (e) {
-                        e.preventDefault();
+                    tile.addEventListener("contextmenu", function (event) { //Oflagowanie pola
+                        event.preventDefault();
 
-                        if (!game_ongoing) return;
-                        if (this.dataset.revealed === 'true') return;
+                        if (!isGameOngoing) return;
+                        if (this.dataset.revealed === "true") return;
 
-                        let isFlagged =
-                            this.style.backgroundColor === 'green';
+                        const isFlagged = this.style.backgroundColor === "green";
 
                         if (!isFlagged) {
-                            this.style.backgroundColor = 'green';
+                            this.style.backgroundColor = "green";
                         } else {
-                            this.style.backgroundColor = '';
+                            this.style.backgroundColor = "";
                         }
                     });
 
-                    cont.append(div);
+                    boardContainer.append(tile);
                 }
             }
         }
 
 
-        function game_finished() {
-            if (!game_ongoing) return;
+        // OBSŁUGA POLA
 
-            game_ongoing = false;
+        //Funkcje pomocnicze
 
-            const selector = zaminowane_pola
-                .map(b => `[data-x="${b.x}"][data-y="${b.y}"]`)
-                .join(', ');
-
-            const bombTiles = document.querySelectorAll(selector);
-
-            bombTiles.forEach(tile => {
-                tile.style.backgroundColor = 'red';
-            });
-
-            alert('Gra przegrana!!!!');
+        function isInsideBoard(row, column) {
+            return (
+                row >= 0 && row < gameBoard.length &&
+                column >= 0 && column < gameBoard.length
+            );
         }
+
+
+        function getTileElement(row, column) {
+            return document.querySelector(`[data-column="${column}"][data-row="${row}"]`);
+        }
+
+        //Odsłoń pola
+
+        function revealTile(row, column) {
+            if (!isInsideBoard(row, column)) { return; }
+
+            const tile = getTileElement(row, column);
+
+            if (tile.dataset.revealed === "true") { return; }
+
+            if (tile.style.backgroundColor === "green") { return; }
+
+            tile.dataset.revealed = "true";
+            tile.style.backgroundColor = "#ddd";
+
+            revealedTilesCount += 1;
+
+            const minesAround = countMinesAround(column, row);
+
+            if (minesAround > 0) {
+                tile.innerText = minesAround;
+                return;
+            }
+
+            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+                for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
+                    revealTile(row + rowOffset, column + columnOffset);
+                }
+            }
+        }
+
+        //Policz miny wokół pola 3x3
+
+        function countMinesAround(column, row) {
+            let minesAround = 0;
+
+            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+                for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
+
+                    if (rowOffset === 0 && columnOffset === 0) {
+                        continue;
+                    }
+
+                    const neighbourColumn = Number(column) + columnOffset;
+                    const neighbourRow = Number(row) + rowOffset;
+
+                    if (
+                        neighbourColumn >= 0 && neighbourColumn < gameBoard.length &&
+                        neighbourRow >= 0 && neighbourRow < gameBoard.length
+                    ) {
+                        if (gameBoard[neighbourRow][neighbourColumn] === 1) {
+                            minesAround++;
+                        }
+                    }
+                }
+            }
+
+            return minesAround;
+        }
+
+        //STANY GRY
+
+        //Przegrana
+
+        function gameLost() {
+            if (!isGameOngoing) return;
+
+            isGameOngoing = false;
+
+            const selector = minePositions
+                .map(minePosition => `[data-column="${minePosition.column}"][data-row="${minePosition.row}"]`)
+                .join(", ");
+
+            const mineTiles = document.querySelectorAll(selector);
+
+            mineTiles.forEach(mineTile => {
+                mineTile.style.backgroundColor = "red";
+            });
+            finishingTime = stop_timer()
+
+            alert(`Gra przegrana!!!! TWOOOJ KONCOWY CZAS ${finishingTime.minutes}:${finishingTime.seconds}`);
+        }
+
+        //Wygrana
+
+        function checkForWin() {
+
+        }
+
+        //CZAS
+
+        function get_time(){
+            let overall_sec = Math.floor((Date.now() - game_beginign)/1000);
+            let minutes = Math.floor(overall_sec / 60 )
+            let seconds = overall_sec % 60
+
+            return {minutes,seconds}
+        }
+
+        function update_time(clock){
+            clearInterval(timer_interval)
+            game_beginign = Date.now()
+            
+            timer_interval = setInterval(() => {
+                time = get_time()
+                clock.innerHTML= `${time.minutes} : ${time.seconds}`
+                console.log(time)
+            }, 250);
+        }
+
+
+        function stop_timer(){
+            clearInterval(timer_interval)
+            return get_time()
+        }
+
 
         init();
     </script>
