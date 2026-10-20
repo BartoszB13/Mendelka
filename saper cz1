@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper</title>
+
     <style>
         .pole {
             border: 1px solid;
@@ -13,6 +14,10 @@
             float: left;
             border-collapse: inherit;
             box-sizing: border-box;
+            text-align: center;
+            line-height: 23px;
+            cursor: pointer;
+            user-select: none;
         }
 
         #cont div {
@@ -23,115 +28,201 @@
 
 <body>
     <script>
+        let game_ongoing = true;
         let gameArray = [];
+        let zaminowane_pola = [];
 
         function init() {
             const container = document.createElement("div");
-            container.id = "cont"
+            container.id = "cont";
+
             const input = document.createElement("input");
+            input.type = "number";
+            input.min = 4;
             input.value = 10;
-            const txt = document.createTextNode("Rozmiar planszy:")
+
+            const txt = document.createTextNode("Rozmiar planszy: ");
             const form = document.createElement("div");
             const button = document.createElement("button");
+
             button.innerText = "GENERUJ!";
+
             button.onclick = function () {
                 const bombs = 10;
-                if (!isNaN(input.value)) {
-                    generujTabliceGry(input.value);
-                    losujBomby(bombs);
-                    generujHTML();
-                } else alert("Wpisz liczbę!");
-            }
+                const size = Number(input.value);
+
+                if (
+                    !Number.isInteger(size) ||
+                    size < 4 ||
+                    size * size <= bombs
+                ) {
+                    alert("Wpisz poprawny rozmiar planszy!");
+                    return;
+                }
+
+                game_ongoing = true;
+
+                generujTabliceGry(size);
+                losujBomby(bombs);
+                generujHTML();
+            };
+
             form.append(txt, input, button);
             document.body.append(form, container);
         }
 
-        function generujTabliceGry(n) {
-            gameArray = []
-            for (let i = 0; i < n; i++) {
-                gameArray[i] = []
-                for (let j = 0; j < n; j++) {
-                    gameArray[i][j] = 0;
+        function generujTabliceGry(BoardSize) {
+            gameArray = [];
+
+            for (let row = 0; row < BoardSize; row++) {
+                gameArray[row] = [];
+
+                for (let column = 0; column < BoardSize; column++) {
+                    gameArray[row][column] = 0;
                 }
             }
         }
 
         function flag_tile() {
-            tile_flagged = false
-            if (!tile_flagged) {
-                this.style.backgroundColor = 'green'
-                tile_flagged = true
+            let isFlagged = this.style.backgroundColor === 'green';
+
+            if (!isFlagged) {
+                this.style.backgroundColor = 'green';
             } else {
-                this.style.backgroundColor = ''
+                this.style.backgroundColor = '';
             }
         }
-        function losujBomby(b) {
-            let zaminowane_pola = []
-            let licznikBomb = 0;
-            do {
+
+        function count_bombs_around(x, y) {
+            let bombs_around = 0;
+
+            for (let tile_row = -1; tile_row <= 1; tile_row++) {
+                for (let tile_column = -1; tile_column <= 1; tile_column++) {
+
+
+                    if (tile_row === 0 && tile_column === 0) {
+                        continue;
+                    }
+
+                    let new_x = Number(x) + tile_column;
+                    let new_y = Number(y) + tile_row;
+
+                    if (
+                        new_x >= 0 && new_x < gameArray.length &&
+                        new_y >= 0 && new_y < gameArray.length
+                    ) {
+                        if (gameArray[new_y][new_x] === 1) {
+                            bombs_around++;
+                        }
+                    }
+                }
+            }
+
+            return bombs_around;
+        }
+
+        function losujBomby(bombcount) {
+            zaminowane_pola = [];
+
+            while (zaminowane_pola.length < bombcount) {
                 const x = Math.floor(Math.random() * gameArray.length);
                 const y = Math.floor(Math.random() * gameArray.length);
-                if (gameArray[y][x] == 0) {
+
+                if (gameArray[y][x] === 0) {
                     gameArray[y][x] = 1;
-                    let mine = { x, y }
-                    zaminowane_pola.push(mine)
-                    licznikBomb++;
+
+                    let mine = { x, y };
+                    zaminowane_pola.push(mine);
                 }
-            } while (licznikBomb < b)
-            console.table(gameArray, zaminowane_pola)
+            }
+
+            console.table(gameArray);
+            console.log(zaminowane_pola);
         }
 
         function generujHTML() {
-            const cont = document.getElementById("cont")
-            cont.innerHTML = ''
+            const cont = document.getElementById("cont");
+
+            cont.innerHTML = '';
             cont.style.width = (gameArray.length * 25) + "px";
+
             for (let i = 0; i < gameArray.length; i++) {
                 for (let j = 0; j < gameArray[i].length; j++) {
                     const div = document.createElement("div");
+
                     div.setAttribute("data-x", j);
                     div.setAttribute("data-y", i);
+                    div.dataset.revealed = "false";
                     div.classList.add("pole");
 
                     div.addEventListener('click', function () {
-                        let bomb_x = this.dataset.x
-                        let bomb_y = this.dataset.y
-                        if (gameArray[bomb_y][bomb_x] == 1) {
-                            game_finished()
+                        if (!game_ongoing) return;
+
+                        if (this.dataset.revealed === 'true') return;
+
+                        if (this.style.backgroundColor === 'green') return;
+
+                        let bomb_x = Number(this.dataset.x);
+                        let bomb_y = Number(this.dataset.y);
+
+                     
+
+                        if (gameArray[bomb_y][bomb_x] === 1) {
+                            game_finished();
+                            return;
                         }
-                    })
+
+                        let bombs_around = count_bombs_around(
+                            bomb_x,
+                            bomb_y
+                        );
+
+                        this.dataset.revealed = 'true';
+                        this.style.backgroundColor = '#ddd';
+
+                        if (bombs_around > 0) {
+                            this.innerText = bombs_around;
+                        }
+                    });
 
                     div.addEventListener('contextmenu', function (e) {
-                        e.preventDefault()
+                        e.preventDefault();
 
-                        let isFlagged = this.style.backgroundColor === 'green';
+                        if (!game_ongoing) return;
+                        if (this.dataset.revealed === 'true') return;
+
+                        let isFlagged =
+                            this.style.backgroundColor === 'green';
+
                         if (!isFlagged) {
-                            this.style.backgroundColor = 'green'
+                            this.style.backgroundColor = 'green';
                         } else {
-                            this.style.backgroundColor = ''
+                            this.style.backgroundColor = '';
                         }
-                    })
+                    });
 
                     cont.append(div);
                 }
             }
         }
 
-        function policzbombysasiednie() {
-            console.log(this, this.dataset.x, this.dataset.y)
-        }
 
         function game_finished() {
-            alert('Gra przegrana')
-            for (let i = 0; i < gameArray.length; i++) {
-                for (let j = 0; j < gameArray[i].length; j++) {
-                    if (gameArray[i][j] == 1) {
-                        let tile = document.querySelector(`[data-x="${j}"][data-y="${i}"]`);
-                        if (tile) {
-                            tile.style.backgroundColor = 'red';
-                        }
-                    }
-                }
-            }
+            if (!game_ongoing) return;
+
+            game_ongoing = false;
+
+            const selector = zaminowane_pola
+                .map(b => `[data-x="${b.x}"][data-y="${b.y}"]`)
+                .join(', ');
+
+            const bombTiles = document.querySelectorAll(selector);
+
+            bombTiles.forEach(tile => {
+                tile.style.backgroundColor = 'red';
+            });
+
+            alert('Gra przegrana!!!!');
         }
 
         init();
