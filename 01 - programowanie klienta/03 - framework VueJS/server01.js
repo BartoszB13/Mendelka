@@ -4,13 +4,13 @@ const app = express();
 const path = require("path");
 const PORT = 3001;
 
-app.use(express.static(__dirname + "/SubDirectories"));
+app.use(express.static(__dirname + "/01 - lekcje VueJS"));
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/01 - spis lekcji VueJS.html"));
 });
 
-const filenames = fs.readdirSync(__dirname + "/SubDirectories");
+const filenames = fs.readdirSync(__dirname + "/01 - lekcje VueJS");
 
 let folders = [];
 let files = [];
@@ -18,12 +18,12 @@ let lessons = [];
 
 filenames.forEach((element) => {
   if (
-    fs.statSync(path.join(__dirname, "SubDirectories", element)).isDirectory()
+    fs.statSync(path.join(__dirname, "01 - lekcje VueJS", element)).isDirectory()
   ) {
     folders.push(element);
     lessons.push(
       fs
-        .readdirSync(path.join(__dirname, "SubDirectories", element))
+        .readdirSync(path.join(__dirname, "01 - lekcje VueJS", element))
         .filter((element) => element.endsWith(".html")),
     );
   } else {
