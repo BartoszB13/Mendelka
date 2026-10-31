@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <pre>
+    <div id="container">
+
+    </div>
+    <script>
+        const filed = document.getElementById('container')
+        function spiralEncrypt(text){
+            let letter_text= []
+            let text_exclude_space = text.replace(/\s+/g, '')
+            console.log(text_exclude_space)
+            for ( let i = 0 ; i < text_exclude_space.length -1 ; i++){
+                let letter = text_exclude_space.slice(i,i+1)
+                letter_text.push(letter)
+            }
+            let closes_n = Math.ceil(Math.sqrt(text_exclude_space.length))
+            let n = closes_n * closes_n
+            let white_space_count = n - text_exclude_space.length
+
+            for ( let white_space_index = 0; white_space_index <= white_space_count; white_space_index++){
+                letter_text.push('_')
+            }
+            const br = document.createElement('br')
+            for (let row = 0; row<n;row++){
+                console.log(row)
+                filed.append(letter_text[row])
+                if ((row % closes_n) == closes_n-1 ){
+                    console.log('wwwwww')
+                    filed.append(document.createElement('br'))
+                }
+
+            }
+            console.log(n,letter_text)
+            
+        }
+        spiralEncrypt('Bardziej Skomplikowawwwwwwwwwwwwwwwwwwwwwwny tekst ')
+    </script>
+</body>
+</html>

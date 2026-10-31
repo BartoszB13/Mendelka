@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: blue;
+        }
+
+        #FunctionButton {
+            background: gray;
+            padding: 1em;
+            justify-content: center;
+            align-items: center;
+            margin: 2em;
+        }
+
+        #HoverField {
+            background: gray;
+            padding: 3em;
+            color: gray;
+        }
+    </style>
+</head>
+<script src="Zadanie/jquery/jq40.js"></script>
+<script>
+    let stan = false
+    $(document).ready(function () {
+        $("#FunctionButton").on("click", function () {
+            stan = true
+            if (stan) {
+                $("#FunctionButton")
+                    .css("background", "red")
+                $("h1")
+                    .css("color", "red")
+                    .html("Obługa zdarzeń dodana")
+                $("#HoverField").on("mouseover", function () {
+                    $("#HoverField")
+                        .css("background", "red")
+                        .css("color", "white")
+                })
+                $("#HoverField").on("mouseleave", function () {
+                    $("#HoverField")
+                        .css("background", "gray")
+                        .css("color", "gray")
+                })
+            } else {
+
+            }
+
+
+        })
+    })
+</script>
+
+<body>
+    <code><h1>Obsługa zdarzeń</h1></code>
+    <div id="FunctionButton">Dodaj / usuń </div>
+    <div id="HoverField">
+        <p>
+            TEKST NORMALNY
+        </p>
+        <p style="font-style: italic;">
+            TEKST ITALIC
+        </p>
+    </div>
+</body>
+
+</html>

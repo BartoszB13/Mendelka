@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="/handleform" name="form">
+        <select id="ball_count" name="ball_count"></select>
+        <input type="color" name="color">
+        <select id="ball_font_size" name="ball_font_size"></select>
+        <button type="submit">www</button>
+        <input type="radio" name="size" value="1">
+        <input type="radio" name="size" value="2">
+        <input type="radio" name="size" value="3">
+    </form>
+    <style>
+            button{background-color: red;}
+    </style>
+    <script>
+        for (let i = 1; i <= 50; i++) {
+            let option1 = document.createElement('option')
+            option1.value = i
+            option1.textContent = i
+            document.getElementById('ball_count').append(option1)
+            
+            let option2 = document.createElement('option')
+            option2.value = i
+            option2.textContent = i
+            document.getElementById('ball_font_size').append(option2)
+        }
+    </script>
+</body>
+</html>

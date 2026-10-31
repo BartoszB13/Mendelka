@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jq40.js"></script>
+    <style>
+        #Gen_table_button {
+            padding: 1em;
+            background-color: red;
+        }
+        #Gen_table_button:active {
+            background-color: aqua;
+        }
+
+        tr, th, td {
+            padding: 1em;
+            border: 1px solid black;
+            width: 2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<script>
+    $(document).ready(function(){
+        $('#Gen_table_button').on("click", function(){
+            const data = {
+                header: {
+                    lps: ["lp", "cena", "produkt"],
+                },
+                products: {
+                    prices: ["5,60", "3,23", "7,45", "10,00", "3,20", "9,22"],
+                    names: ["chleb", "mąka", "masło", "kefir", "dżem", "inne"]
+                }
+            }
+
+            let product_list_len = data.products.prices.length
+            let lps = data.header.lps
+
+            // clear the table so repeated clicks don't stack rows
+            $('#maintable').empty()
+
+            // 1. header row (built once, outside the loop)
+            let headerRow = $('<tr>')
+            for (let column = 0; column < lps.length; column++) {
+                headerRow.append($('<th>').text(lps[column]))
+            }
+            $('#maintable').append(headerRow)
+
+            // 2. data rows
+            let total_shoping_cost = 0
+            for (let row = 1; row <= product_list_len; row++) {
+                let product_list = {
+                    lp: row,
+                    productprice: parseFloat(data.products.prices[row-1].replace(",", ".")),
+                    productname: data.products.names[row-1],
+                }
+
+                let tr = $('<tr>')
+                for (let column = 0; column < 3; column++) {
+                    let td = $('<td>')
+                    let value = Object.values(product_list)[column]
+
+                    if (column == 1) {
+                        total_shoping_cost += value                    // add the number first
+                        value = value.toFixed(2).replace(".", ",")     // then format for display
+                    }
+
+                    td.text(value)
+                    tr.append(td)
+                }
+                $('#maintable').append(tr)
+            }
+
+            // 3. sum row
+            let sumRow = $('<tr>')
+            sumRow.append($('<td colspan="2">').text("Suma"))
+            sumRow.append($('<td>').text(total_shoping_cost.toFixed(2).replace(".", ",")))
+            $('#maintable').append(sumRow)
+        })
+    })
+</script>
+<body>
+    <div class="container">
+        <h1>Tabela html</h1>
+        <div id="Gen_table_button">Button</div>
+        <table id="maintable"></table>
+    </div>
+</body>
+</html>

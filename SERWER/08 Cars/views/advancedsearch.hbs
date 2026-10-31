@@ -1,0 +1,67 @@
+<h1><code>Advanced Search</code></h1>
+
+<div class="container" id="main">
+  <div class="container">
+    <form method="post" action="/AddMultipleCars">
+      <select name="addCarCount">
+        <option value="1">1 Samochod</option>
+        <option value="5">5 Samochodow</option>
+        <option value="10">10 Samochodow</option>
+        <option value="15">15 Samochodów</option>
+        <option value="20">20 Samochodow</option>
+      </select>
+      <button type="submit">Prześlij</button>
+    </form>
+  </div>
+  <div>
+    <form method="get" action="/AdvancedSearchCars">
+      <div class="container">
+        <label>Od Ceny : </label>
+        <input type="range" min="2011" max="2027" />
+        <label>Do Ceny : </label>
+        <input type="range" min="2011" max="2027" />
+      </div>
+      <div class="container">
+        <label>Od roku: </label>
+        <input type="range" min="46000" max="106000" />
+        <label>Do roku: </label>
+        <input type="range" min="46000" max="106000" />
+      </div>
+      <button type="submit">Filtruj</button>
+    </form>
+  </div>
+</div>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Benzyna</th>
+    <th>Uszkodozny</th>
+    <th>napęd 4x4</th>
+    <th>model</th>
+    <th>Ubezpieczony</th>
+  </tr>
+
+  {{#each context}}
+    <tr>
+      <td>
+        {{_id}}
+      </td>
+      <td>
+        {{Benzyzna}}
+      </td>
+      <td>
+        {{Uszkodozny}}
+      </td>
+      <td>
+        {{naped4}}
+      </td>
+      <td>
+        {{model}}
+      </td>
+      <td>
+        {{Ubezpieczony}}
+      </td>
+    </tr>
+  {{/each}}
+</table>

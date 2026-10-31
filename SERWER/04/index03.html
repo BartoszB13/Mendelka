@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 20%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        input,
+        div,
+        #imagefield,
+        #button {
+            margin: 1em;
+        }
+
+        #imagefield, #textfield {
+            padding: 3em;
+            background-color: lightblue;
+            border: 1px dashed cornflowerblue;
+        }
+
+        #uploadbut {
+            background-color: khaki;
+            padding: 1em;
+        }
+
+        #uploadbut:active {
+            background-color: chocolate;
+    
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            box-shadow: 1px gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="file" required name="imagetoupload" id="fileinput">
+        <div id="uploadbut">Upload</div>
+
+        <div class="container" style="flex-direction:row">
+            <div id="imagefield"></div>
+            <div id="textfield"></div>
+        </div>
+    </div>
+    
+    
+    <script>
+        document.getElementById("uploadbut").onclick = function () {
+            const fileInput = document.getElementById("fileinput")
+            if (fileInput.files.length === 0) {
+                console.log("Nie wybrano żadnego pliku")
+                return
+            }
+
+            const data = new FormData()
+            for (const file of fileInput.files) {
+                data.append("imagetoupload", file)   // nazwa pola MUSI się zgadzać z files.imagetoupload na serwerze
+            }
+
+            fetch('/handleform', {
+                method: "POST",
+                body: data
+            })
+            .then(function (response) {
+                    console.log("wwew")
+                    if (!response.ok) throw new Error("Status: " + response.status)
+                    return response.json()
+                })
+                .then(function (dataFromServer) {
+                    switch(dataFromServer.data.filetype){
+                        case('png'):
+                            const img = document.createElement('img')
+                            img.src = dataFromServer.data.path
+                            img.style.maxWidth = '300px'
+                            
+                            document.getElementById('imagefield').append(img)
+                            break
+                        case('txt'):
+                        case('html'):
+                            document.getElementById("textfield").replaceChildren()
+                            document.getElementById("textfield").append(dataFromServer.data.filecontent)
+                            break
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
+    </script>
+</body>
+
+</html>

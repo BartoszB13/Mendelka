@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parzyste i nieparzyste</title>
+    <script src="jq40.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #111827;
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            color: #f9fafb;
+        }
+
+        .card {
+            background-color: #1f2937;
+            padding: 40px 40px 36px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 710px;
+            width: 100%;
+        }
+
+        h1 {
+            margin: 0 0 24px;
+            color: #60a5fa;
+            font-size: 1.8rem;
+        }
+
+        p {
+            margin: 0 0 32px;
+            font-size: 1rem;
+        }
+
+        /* the container for the numbers: 5 columns */
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(5, 54px);
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 36px;
+        }
+
+        /* style for the cells you will create in JS */
+        .cell {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #4b5563;
+            color: #f9fafb;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 10px;
+            transition: background-color 0.2s;
+        }
+
+        /* add this class in JS to highlight a cell */
+        .cell.highlight {
+            background-color: #8200a8;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            transition: transform 0.1s, filter 0.2s;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        #btn-even  { background-color: #2563eb; }
+        #btn-odd   { background-color: #ef4444; }
+        #btn-reset { background-color: #10b981; }
+        
+        .field_box {
+            background-color:sandybrown;
+            padding: 1em;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Parzyste i nieparzyste</h1>
+        <p>Kliknij przycisk, aby podświetlić pola z liczbami parzystymi lub nieparzystymi.</p>
+
+        <div id="grid"></div>
+
+        <div class="buttons">
+            <button id="btn-even">Podświetl parzyste</button>
+            <button id="btn-odd">Podświetl nieparzyste</button>
+            <button id="btn-reset">Resetuj</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            for (let row=0; row<5;row++){
+                for(let column=0; column<5; column++){
+                    let random_number = Math.floor((Math.random() * 100) + 1);
+                    let div = $('<div>').addClass('field_box')
+                    div.append(random_number)
+                    if ((random_number%2)==0){
+                        div.addClass('even')
+                    } else {
+                        div.addClass('odd')
+                    }
+                    $('#grid').append(div)
+                }
+            }
+            $('#btn-even').on('click', function(){
+                $('.odd').css('background-color','')
+                $('.even').css('background-color','green')
+            })
+            $('#btn-odd').on('click', function(){
+                $('.even').css('background-color','')
+                $('.odd').css('background-color','red')
+            })
+            $('#btn-reset').on('click', function(){
+                $('.even').css('background-color','')
+                $('.odd').css('background-color','')
+            })
+        })
+    </script>
+</body>
+</html>

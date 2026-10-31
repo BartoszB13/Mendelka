@@ -1,0 +1,13 @@
+h1 {
+    color: green;
+}
+
+td {
+    border: 1px solid black;
+    padding: 1em;
+    text-align: center;
+}
+
+#delete, #przywroc {
+    margin-top: 1em;
+}

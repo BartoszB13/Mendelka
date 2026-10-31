@@ -1,0 +1,56 @@
+<code><h1>Usówanie elementów</h1></code>
+
+{{#if numRemoved}}
+  <h1>Usunięto {{numRemoved}} elementów</h1>
+{{/if}}
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Benzyna</th>
+    <th>Uszkodozny</th>
+    <th>napęd 4x4</th>
+    <th>model</th>
+    <th>Ubezpieczony</th>
+    <th>Czy usuń</th>
+    <th></th>
+  </tr>
+
+  <form>
+    <button formaction="/deleteSelected" type="submit">Usuń zaznaczone</button>
+    <button formaction="/deleteAll" type="submit">Usuń wszystkie</button>
+    {{#each context}}
+      <tr>
+        <td>
+          {{_id}}
+        </td>
+        <td>
+          {{Benzyzna}}
+        </td>
+        <td>
+          {{Uszkodozny}}
+        </td>
+        <td>
+          {{naped4}}
+        </td>
+        <td>
+          {{model}}
+        </td>
+        <td>
+          {{Ubezpieczony}}
+        </td>
+        <td>
+          <button
+            type="submit"
+            name="delButton"
+            value="{{_id}}"
+            formaction="/delone"
+          >Usuń</button>
+        </td>
+        <td>
+          <input type="checkbox" name="checkbox" value="{{_id}}" />
+        </td>
+      </tr>
+    {{/each}}
+  </form>
+</table>

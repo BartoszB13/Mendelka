@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .kolo {
+            background-color: crimson;
+            border-radius: 50%;
+            aspect-ratio: 1;
+            width: 30px;
+            position: absolute;
+        }
+        #container {
+            border: 1px solid black;
+            width: 500px;
+            aspect-ratio: 1;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+        <div class="kolo"></div>
+    </div>
+    <script>
+        const kola = document.querySelectorAll('.kolo')
+
+        function random_size(){
+            let random_width = Math.floor(Math.random()*29) +1
+            return random_width
+        }
+
+        function random_position(kolo){
+            let random_circle_width = random_size()
+            let random_Y_axis = Math.floor(Math.random()*(500-random_circle_width))
+            let random_X_axis = Math.floor(Math.random()*(500-random_circle_width))
+            
+
+            kolo.style.width = random_circle_width + 'px'
+            
+            kolo.style.bottom = (random_Y_axis)  + 'px'
+            kolo.style.left = (random_X_axis ) + 'px' 
+
+        }
+        function drop_circle(kolo){
+
+            let circle_top = parseInt(kolo.style.bottom)
+            console.log(circle_top)
+            let circle_width = parseInt(kolo.style.width)
+            let distance_from_bottom = circle_top
+
+            const drop_circle_interval = setInterval(()=>{
+                distance_from_bottom = Math.max(distance_from_bottom - 10, 0)
+                kolo.style.bottom = distance_from_bottom +'px'
+
+                if (distance_from_bottom <= circle_width){
+                    clearInterval(drop_circle)
+                }
+            },100)
+
+            
+        }
+        kola.forEach((kolo)=> {
+            random_position(kolo)
+            kolo.addEventListener('click', ()=> drop_circle(kolo))
+        })
+        
+    </script>
+</body>
+</html>

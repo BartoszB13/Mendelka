@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let sen = eval(prompt("Wpisz zdanie:", "Bartek ma te te terakote").split(" "))
+        const findinsen = prompt("Co znaleśc w zdaniu", "te")
+        console.log(sen)
+        console.log(sen.length)
+        for (let i = 0; i < (sen.length); i++){
+            let slowo = sen[i]
+            let koniec = ""
+            let rdzen = slowo
+            while ((rdzen.length)>0 && [",",":","."].includes(rdzen[rdzen.length-1])){
+                koniec += rdzen[rdzen.length -1]
+                rdzen = rdzen.slice(0,-1)
+            }
+            if (rdzen.toLocaleLowerCase("pl") === findinsen.toLocaleLowerCase("pl")) {
+                document.write(`<u>${rdzen}</u>${koniec}`)
+            } else {
+                document.write(slowo)
+            }
+
+            if (sen.length > 1 ){
+                document.write(" ")
+            }
+        }
+
+
+
+
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

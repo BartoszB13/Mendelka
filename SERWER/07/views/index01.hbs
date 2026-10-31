@@ -1,0 +1,27 @@
+<h1>Welkam handlebars</h1>
+
+<form action="/UserReg" method="post">
+    <input name="username" placeholder="Imie">
+    <input name="usersurname" placeholder="Nazwisko">
+    <button type="submit">Zapisz</button>
+</form>
+
+<table>
+    <tr>
+        {{#each table_header}}
+            <td>{{title}}</td>
+        {{/each}}
+    </tr>
+
+    {{#each table_users}}
+        <tr id=`row-{{lp}}`>
+            <td>{{lp}}</td>
+            <td>{{imie}}</td>
+            <td>{{nazwisko}}</td>
+            <td><input type="checkbox" value=`{{lp}}`></td>
+        </tr>
+    {{/each}}
+</table>
+
+<button id="delete">usun zaznaczone</button>
+<button id="przywroc">Przywroc baze</button>

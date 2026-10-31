@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function fionaci(n){
+            const count = n
+            let ciag = []
+            let previous_number = 0
+            let current_number = 1
+
+            for(let i =0; i< count; i++){
+                ciag.push(previous_number)
+                const next_value = previous_number + current_number
+                previous_number = current_number
+                current_number =  next_value
+            }
+            console.log(ciag)
+
+        }
+        fionaci(10)
+    </script>
+</body>
+</html>

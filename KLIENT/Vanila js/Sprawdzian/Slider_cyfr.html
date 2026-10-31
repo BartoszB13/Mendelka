@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<style>
+  #cyfry {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .cyfra {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #333;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+
+<div id="cyfry">
+  <div class="cyfra">1</div>
+  <div class="cyfra">2</div>
+  <div class="cyfra">3</div>
+  <div class="cyfra">4</div>
+  <div class="cyfra">5</div>
+</div>
+
+<button id="obrocWLewo">&lt;</button>
+<button id="obrocWPrawo">&gt;</button>
+
+<script>
+const kontenerCyfr = document.getElementById('cyfry');
+const liczbaCyfr = kontenerCyfr.children.length;
+
+let ostatniKierunek = null;
+let liczbaObrotowPodRzad = 0;
+
+function obrocWPrawo() {
+  // ostatni element przechodzi na początek
+  kontenerCyfr.prepend(kontenerCyfr.lastElementChild);
+}
+
+function obrocWLewo() {
+  // pierwszy element przechodzi na koniec
+  kontenerCyfr.append(kontenerCyfr.firstElementChild);
+}
+
+function zarejestrujObrot(kierunek) {
+  if (kierunek === ostatniKierunek) {
+    liczbaObrotowPodRzad++;
+  } else {
+    ostatniKierunek = kierunek;
+    liczbaObrotowPodRzad = 1;
+  }
+
+  if (liczbaObrotowPodRzad === liczbaCyfr) {
+    liczbaObrotowPodRzad = 0;
+    ostatniKierunek = null;
+    // opóźnienie pozwala przeglądarce narysować ostatni obrót przed alertem
+    setTimeout(() => alert('Obrócono całość w ' + kierunek), 50);
+  }
+}
+
+document.getElementById('obrocWPrawo').addEventListener('click', () => {
+  obrocWPrawo();
+  zarejestrujObrot('prawo');
+});
+
+document.getElementById('obrocWLewo').addEventListener('click', () => {
+  obrocWLewo();
+  zarejestrujObrot('lewo');
+});
+</script>
+</body>
+</html>

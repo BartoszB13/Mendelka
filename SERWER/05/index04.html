@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <style>
+        #submit {
+            padding: 3em;
+            border: 1px solid black;
+            width: 4em;
+        }
+        #submit:active {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="fileinput">
+    <div id="submit">Przeslij</div>
+    <script>
+        const fileInput = document.getElementById('fileinput')
+        const submitButton = document.getElementById('submit')
+
+        submitButton.onclick = function () {
+            // FIX: the FormData is now built INSIDE the click handler.
+            // In the original it was built once at page load, before the user
+            // had picked any file, so it could never contain their choice.
+            const selectedFile = fileInput.files[0]
+
+            if (!selectedFile) {
+                console.log('No file selected')
+                return
+            }
+
+            const formData = new FormData()
+
+            // FIX: append the File object (fileInput.files[0]),
+            // not the <input> element itself. The original sent
+            // the string "[object HTMLInputElement]" instead of a file.
+            formData.append('file', selectedFile)
+
+            const options = {
+                method: 'POST',
+                body: formData,
+                // Don't set a Content-Type header manually. The browser adds it
+                // together with the multipart boundary that formidable needs.
+            }
+
+            fetch('/upload', options)
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (dataFromServer) {
+                    console.log(dataFromServer)
+                })
+                .catch(function (error) {
+                    // FIX: `return error` silently swallowed failures.
+                    // Logging makes problems visible in the browser console.
+                    console.error(error)
+                })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .container {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+            padding: 2em;
+            border: 1px solid black;
+            border-radius: 10px;
+            background-color: cornflowerblue;
+            color: white;
+        }
+        select,h1 {
+            margin-bottom: 2em;
+            
+        }
+
+        h1 {
+            border: 1px solid orange;
+            padding: 1em;
+            border-radius: 10px;
+            
+            background-color: orange;
+        }
+
+        #btn {
+            border: 1px solid orange;
+            padding: 1em;
+            border-radius: 10px;
+            
+            background-color: orange;
+        }
+        #btn:active {
+            background-color: purple;
+        }
+        select {
+            width: 100%;
+            padding: 2em;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fetch</h1>
+        <select id="imie">
+            <option value="Jan">Jan</option>
+            <option value="Julia">Julia</option>
+            <option value="Basia">Basia</option>
+        </select>
+        <select id="nazwisko">
+            <option value="Nowak">Nowak</option>
+            <option value="Wielblad">Wielblad</option>
+            <option value="Aneks">Aneks</option>
+        </select>
+        <div id="btn">Kliknij</div>
+    </div>
+</body>
+<script>
+    document.getElementById('btn').onclick = function() {
+        const data = JSON.stringify({
+            name: document.getElementById('imie').value,
+            lastname: document.getElementById("nazwisko").value
+        })
+        const options = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: data
+        }
+        fetch("/login", options)
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function(dataFromServer){
+                alert(JSON.stringify(dataFromServer,null,5))
+            })
+            .catch(function(error){
+                console.log(error)
+            })
+    }
+</script>
+</html>

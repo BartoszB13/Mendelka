@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 20%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        input,
+        div,
+        #imagefield,
+        #button {
+            margin: 1em;
+        }
+
+        #imagefield {
+            padding: 1em;
+            background-color: lightblue;
+            border: 1px dashed cornflowerblue;
+        }
+
+        #uploadbut {
+            background-color: khaki;
+            padding: 1em;
+        }
+
+        #uploadbut:active {
+            background-color: chocolate;
+    
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            box-shadow: 1px gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <input type="file" required  accept="image/*" name="imagetoupload" id="fileinput">
+        <div id="uploadbut">Upload</div>
+
+        <div id="imagefield"></div>
+    </div>
+    
+    
+    <script>
+        document.getElementById("uploadbut").onclick = function () {
+            const fileInput = document.getElementById("fileinput")
+            if (fileInput.files.length === 0) {
+                console.log("Nie wybrano żadnego pliku")
+                return
+            }
+
+            const data = new FormData()
+            for (const file of fileInput.files) {
+                data.append("imagetoupload", file)   // nazwa pola MUSI się zgadzać z files.imagetoupload na serwerze
+            }
+
+            fetch('/handleform', {
+                method: "POST",
+                body: data
+            })
+                .then(function (response) {
+                    if (!response.ok) throw new Error("Status: " + response.status)
+                    return response.json()
+                })
+                .then(function (dataFromServer) {
+                    const img = document.createElement("img")
+                    console.log(dataFromServer.data.path)
+                    img.src = dataFromServer.data.path
+                    img.style.maxWidth = "300px"
+                    document.getElementById("imagefield").innerHTML = ""
+                    document.getElementById("imagefield").append(img)
+                    
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
+    </script>
+</body>
+
+</html>

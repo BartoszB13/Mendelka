@@ -1,0 +1,13 @@
+<code><h1>Dodawanie elementów</h1></code>
+
+{{#if _id}}
+  <p><code>new car (Model:{{model}}) with id = {{_id}}</code></p>
+{{/if}}
+
+<form name="addCar" action="/addCar" method="post" id="submitform">
+  <input name="Ubezpieczony" type="checkbox" />Ubezpieczony
+  <input name="Benzyzna" type="checkbox" />Benzyzna
+  <input name="Uszkodozny" type="checkbox" />Uszkodozny
+  <input name="naped4" type="checkbox" />4x4
+  <button type="submit">Prześlij</button>
+</form>

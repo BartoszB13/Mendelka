@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2 v-html="title"></h2>
+
+      <h2 v-once>{{titleVonce}}</h2>
+
+      <h2 v-text="titleText"></h2>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            title: "ddyrektywav-html dyrektywa intepretujaca html",
+            titleVonce: "Tekest nie mozliwy do zmodyfikowania / const",
+            titleText: "Tekest do wyswietlania nie interpetuje",
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

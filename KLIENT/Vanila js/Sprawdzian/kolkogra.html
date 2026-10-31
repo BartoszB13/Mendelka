@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #plansza {
+            border: 1px solid black;
+            width: 500px;
+            height: 500px;
+            position: relative;
+        }
+        #ball {
+            border-radius: 30px;
+            height: 30px;
+            width: 30px;
+            position: absolute;
+            cursor: pointer;
+        }
+        #scoreboard {
+            margin: 1em;
+            height: 2em;
+            width: 500px;
+            text-align: center;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id="scoreboard"></div>
+    <div id="plansza">
+        <div id="ball"></div>
+    </div>
+    <script>
+        let timer = null
+        let score = 0
+
+
+        function generate_random_rgb_value(){
+            let random_red = Math.floor(Math.random() * 256)
+            let random_green = Math.floor(Math.random() * 256)
+            let random_blue = Math.floor(Math.random() * 256)
+            let color = `rgb(${random_red},${random_green},${random_blue})`
+            return color
+        }
+
+        function move_recolor_ball() {
+            let random_y_axis = Math.floor(Math.random() * 470)
+            let random_x_axis = Math.floor(Math.random() * 470)
+            let ball = document.getElementById('ball')
+            ball.style.backgroundColor = generate_random_rgb_value()
+            ball.style.top = random_y_axis + 'px'
+            ball.style.left = random_x_axis + 'px'
+        }
+        function start(){
+            clearInterval(timer)
+            timer = setInterval(move_recolor_ball,1000)
+        }
+        document.getElementById('ball').onclick = function(){
+            clearInterval(timer)
+            document.getElementById('ball').style.display = 'none'
+
+            score += 1
+            document.getElementById('scoreboard').textContent = `Twoj wyznik: ${score}`
+            setTimeout(() => {
+                move_recolor_ball()
+                document.getElementById('ball').style.display = 'block'
+                start()
+            },1000)
+            
+        }
+        move_recolor_ball()
+        start()
+
+
+    </script>
+</body>
+</html>

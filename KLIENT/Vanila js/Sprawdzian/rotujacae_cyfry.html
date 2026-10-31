@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .cyfra {
+            width: 50px;
+            aspect-ratio: 1;
+            border: 1px solid black;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+            text-align: center;
+        }
+        #cyfry {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="cyfry">
+        <div class="cyfra">1</div>
+        <div class="cyfra">2</div>
+        <div class="cyfra">3</div>
+        <div class="cyfra">4</div>
+        <div class="cyfra">5</div>
+    </div>
+    <button id="lewo"><</button>
+    <button id="prawo">></button>
+    <script>
+        const kontener = document.getElementById('cyfry')
+        const lewo = document.getElementById('lewo')
+        const prawo = document.getElementById('prawo')
+
+        let liczba_pod_rzad = 0
+        let ostatni_kierunek = null
+
+        
+        function sprawdz_streak(kierunek){
+            if (kierunek == ostatni_kierunek){
+                liczba_pod_rzad++
+            } else {
+                ostatni_kierunek = kierunek
+                liczba_pod_rzad = 1
+            }
+            
+            if (liczba_pod_rzad == 5){
+                alert(`Obrociles pelny obrot w kierunku ${kierunek}`)
+            }
+        }
+        
+        lewo.addEventListener('click', function(){
+            kontener.prepend(kontener.lastElementChild)
+            sprawdz_streak('prawo')
+        })
+        prawo.addEventListener('click', function(){
+            kontener.append(kontener.firstElementChild)
+            sprawdz_streak('lewo')
+        })
+        console.log(kontener.children)
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #container {
+            background-color: cornflowerblue;
+            border-radius: 50%;
+            width: 50px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-size: 10px;
+            padding: 1em;
+            font-weight: bold;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="container"><code>Kula musi jebać!!!</code></div>
+    <script>
+        const kula = document.getElementById('container')
+        let ball_size = 50
+        let growth_interval
+        let shrink_interval
+
+        kula.addEventListener('mouseenter', ()=> {
+            clearInterval(shrink_interval)
+            kula.innerHTML = 'jaaaddaa swiry '
+            
+            growth_interval = setInterval(function(){
+                ball_size += 10
+                kula.style.width = ball_size + 'px'
+                if (ball_size >= 500 || kula.eve){
+                    clearInterval(growth_interval)
+                    kula.innerHTML = 'MAKSSSSSS!!! swiry '
+                }
+                
+            },10)
+        }) 
+        kula.addEventListener('mouseleave', ()=> {
+            clearInterval(growth_interval)
+            kula.innerText = 'Kula musi jebać!!!'
+            shrink_interval = setInterval(function(){
+                ball_size -= 10
+                kula.style.width = ball_size + 'px'
+                if (ball_size <= 50){
+                    clearInterval(shrink_interval)
+                    kula.innerHTML = 'skurczone '
+                }
+                
+            },10)
+        }) 
+    </script>
+</body>
+</html>

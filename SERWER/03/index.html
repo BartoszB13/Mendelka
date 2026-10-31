@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #f2f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: #ffffff;
+        padding: 32px 36px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        max-width: 380px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 24px;
+        color: #222;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: #444;
+        font-weight: 600;
+    }
+
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d0d5dd;
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+    }
+
+    input[type="number"]:focus,
+    select:focus {
+        border-color: #4f7cff;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        background: #4f7cff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #3c63d6;
+    }
+</style>
+<script src="script.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kalkulator dwóch liczb</h1>
+
+    <form action="/handleForm" method="POST">
+        <div class="form-group">
+            <label for="n1">Pierwsza liczba (n1)</label>
+            <input type="number" id="n1" name="n1" step="any" required>
+        </div>
+
+        <div class="form-group">
+            <label for="n2">Druga liczba (n2)</label>
+            <input type="number" id="n2" name="n2" step="any" required>
+        </div>
+
+        <div class="form-group">
+            <label for="method">Operacja</label>
+            <select id="method" name="method">
+                <option value="add">Dodawanie</option>
+                <option value="sub">Odejmowanie</option>
+                <option value="mul">Mnożenie</option>
+                <option value="divi">Dzielenie</option>
+                <option value="all">Wszystkie</option>
+            </select>
+        </div>
+
+        <button type="submit">Oblicz</button>
+    </form>
+</div>
+
+</body>
+</html>

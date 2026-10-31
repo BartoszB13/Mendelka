@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>samochód: {{getNumberC}}</h2>
+      <h2>samochód: {{getNumber()}}</h2>
+      <h2>rok produkcji: {{getRandomNumberC }}</h2>
+      <h2>rok produkcji: {{getRandomNumber() }}</h2>
+      <h2>samochód: {{ getCurrentDateC}}</h2>
+      <h2>rok produkcji: {{getCurrentDate()}}</h2>
+
+      <button @click="year++">Change year</button>
+      <p>{{ year }}</p>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            type: "Fiat",
+            year: 1989,
+            model: "Panda",
+          };
+        },
+        computed: {
+          getNumberC() {
+            console.log("computed" + 100);
+            return 100;
+          },
+          getRandomNumberC() {
+            console.log("adnom computed");
+            let RandomNumber = Math.random() * 100;
+            return RandomNumber;
+          },
+          getCurrentDateC() {
+            console.log("computed curdate");
+          },
+        },
+        methods: {
+          getNumber() {
+            console.log("methods " + 100);
+            return 100;
+          },
+          getRandomNumber() {
+            let RandomNumber = Math.random() * 100;
+            console.log("methods " + RandomNumber);
+            return RandomNumber;
+          },
+          getCurrentDate() {},
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

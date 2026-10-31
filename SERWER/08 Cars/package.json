@@ -1,0 +1,16 @@
+{
+  "name": "08-cars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server01.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@seald-io/nedb": "^4.1.2",
+    "express": "^5.3.0",
+    "express-handlebars": "^8.0.3"
+  }
+}

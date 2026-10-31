@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lekcje VueJS</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            margin: 30px;
+            background: #f8f8f8;
+            color: #2c3e50;
+            font-family: Arial, sans-serif;
+        }
+        h1 { font-size: 36px; margin: 0 0 24px; }
+        h2 { color: #999; font-size: 22px; font-weight: normal; margin: 24px 0 18px; }
+        section div { display: flex; flex-wrap: wrap; gap: 10px; }
+        a {
+            padding: 10px 14px;
+            background-color: #42b883;
+            border-radius: 6px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+        }
+        a:hover, a:focus-visible { background-color: #359768; }
+    </style>
+</head>
+<body>
+    <h1>lekcje VueJS</h1>
+    <script>
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        fetch("/fetch", options)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(dataFromServer) {
+                console.log(dataFromServer);
+                dataFromServer.folders.forEach((folder, index) => {
+                    const section = document.createElement('section')
+                    const heading = document.createElement('h2')
+                    heading.textContent = folder
+                    section.append(heading)
+                    const links = document.createElement('div')
+                    let files = dataFromServer.lessons[index]
+                    files.forEach(element => {
+                        let ahref = document.createElement('a')
+                        ahref.text = element
+                        ahref.setAttribute('href', encodeURIComponent(folder) + '/' + encodeURIComponent(element))
+                        links.append(ahref)
+                    });
+                    section.append(links)
+                    const body = document.getElementsByTagName('BODY')[0]
+                    body.append(section)
+                });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    </script>
+</body>
+</html>

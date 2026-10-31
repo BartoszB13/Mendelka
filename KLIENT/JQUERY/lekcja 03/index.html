@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jq40.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            margin: 1em;
+        }
+
+        .buttons>div {
+            padding: 1em;
+            border-radius: 15px;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: whitesmoke;
+            margin: 1em;
+        }
+
+        #startgame {
+            background-color: green;
+        }
+
+        #moveplayer {
+            background-color: cornflowerblue;
+        }
+
+        #reset {
+            background-color: darkred;
+        }
+
+        .game {
+            display: flex;
+            padding: 1em 1em 4em 1em;
+            align-items: center;
+            flex-direction: column;
+
+        }
+
+        #boxfield {
+            width: 250px;
+            height: 250px;
+
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .box {
+            height: 45px;
+            width: 45px;
+            background-color: #357852;
+            position: absolute;
+            position: absolute;
+        }
+
+        .boxactive {v
+            background-color: lightsalmon;
+        }
+
+        .player {
+            border-radius: 100%;
+            width: 45px;
+            height: 45px;
+            position: absolute;
+        }
+
+        .player1 {
+            background-color: coral;
+        }
+
+        .player2 {
+            background-color: darkred;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            data = []
+            beforestart = true
+            ongoinggame = false
+
+            for (let i = 0; i < 5; i++) {
+                for (let j = 0; j < 5; j++) {
+                    const box = $(`<div>`).css("left", j * 50).css("top", i * 50).addClass('box')
+                    $('#boxfield').append(box)
+                    $(box).on("click", function () {
+                        if (beforestart == false) {
+                            return false
+                        } else {
+                            const cordinates = { posX: $(this).css('left'), posY: $(this).css('top') }
+                            if (box.hasClass('boxactive')) {
+                                return false
+                            } else {
+                                box.addClass('boxactive')
+                                data.push(cordinates)
+                                console.table(data)
+                            }
+                        }
+                    })
+                }
+            }
+
+            // zmienne stanu gry - poza handlerem startu, żeby reset mógł je zerować
+            let first_player_movecount = 1
+            let second_player_movecount = 2
+            let overall_player_movrcount = 0
+            let player1move = true
+            let gamefinish = false
+
+            $('#startgame').on("click", function () {
+                beforestart = false
+                if (ongoinggame) {
+                    $('#mesagefield').text("skorzystaj z przycisku restetuj do rozpoczcia kolejnej gry")
+                    return false
+                }
+
+                if (data.length >= 3) {
+                    const player1 = $(`<div>`).addClass('player').addClass("player1")
+                    const player2 = $(`<div>`).addClass('player').addClass("player2")
+
+                    $('#boxfield').append(player1)
+                    $('#boxfield').append(player2)
+
+                    $(player1).css('left', data[0].posX).css('top', data[0].posY)
+                    $(player2).css('left', data[data.length - 1].posX).css('top', data[data.length - 1].posY)
+
+                    ongoinggame = true
+                } else {
+                    $('#mesagefield').html("Zaznacz wiecej 3 lub wiecej pol aby rozpocac gre")
+                }
+            })
+
+            // handler ruchu - zdefiniowany RAZ, poza #startgame
+            $("#moveplayer").on("click", function () {
+                if (!ongoinggame || gamefinish) return false
+
+                let player1pos = data[first_player_movecount]
+                let player2pos = data[data.length - second_player_movecount]
+
+                if (second_player_movecount == (data.length + 1)) {
+                    $("#mesagefield").text("Koniec gry")
+                    gamefinish = true
+                    return false
+                }
+
+                if (player1move) {
+                    $('.player1').css('left', player1pos.posX).css('top', player1pos.posY)
+                    first_player_movecount += 1
+                    overall_player_movrcount += 1
+                    $('#mesagefield').text(`ruszyłeś się ${overall_player_movrcount}razy`)
+                    player1move = false
+                } else {
+                    $('.player2').css('left', player2pos.posX).css('top', player2pos.posY)
+                    second_player_movecount += 1
+                    overall_player_movrcount += 1
+                    $('#mesagefield').text(`ruszyłeś się ${overall_player_movrcount}razy`)
+                    player1move = true
+                }
+            })
+
+            // handler resetu - zdefiniowany RAZ, poza #startgame
+            $("#reset").on("click", function () {
+                data = []                          // wyczyść dane
+                beforestart = true                 // znów można zaznaczać pola
+                ongoinggame = false                // gra nieaktywna
+
+                $('.box').removeClass('boxactive') // odznacz wszystkie pola
+                $('.player').remove()              // usuń obu graczy z planszy
+
+                first_player_movecount = 1
+                second_player_movecount = 2
+                overall_player_movrcount = 0
+                player1move = true
+                gamefinish = false
+
+                $('#mesagefield').text('')         // wyczyść komunikat
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div class="game">
+        <div class="buttons">
+            <div id="startgame">Start gry</div>
+            <div id="moveplayer">Ruch gracza</div>
+            <div id="reset">Resetuj</div>
+        </div>
+
+        <div id="boxfield"></div>
+        <div id="mesagefield"></div>
+    </div>
+</body>
+
+</html>

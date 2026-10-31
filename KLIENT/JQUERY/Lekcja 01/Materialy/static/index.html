@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/jquery/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("Komunikat body gotowe");
+
+            $("#btn1").on("click", function () {
+                alert("Powiadomienie alert")
+            })
+            
+
+
+            $("#btn2").on("click", function () {
+                let humor = confirm("jak leci")
+                console.log(humor)
+                if (humor) {
+                    alert("good")
+                } else {
+                    alert("bad")
+                }
+            })
+
+
+
+            $("#btn3").on("click",funtion () {
+
+            })
+            
+            })
+
+
+    </script>
+</head>
+
+<body>
+    <button id="btn1">ALERT</button>
+    <button id="btn2">POTIWRZENIE</button>
+    <button id="btn3">ZMIANA DIV</button>
+    <button id="btn4">COFNIJ/ZABLOKUJ DIV</button>
+</body>
+
+</html>

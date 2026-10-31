@@ -1,0 +1,42 @@
+<code><h1>Listowanie elementów</h1></code>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Benzyna</th>
+    <th>Uszkodozny</th>
+    <th>napęd 4x4</th>
+    <th>model</th>
+    <th>Ubezpieczony</th>
+    <th></th>
+  </tr>
+
+  {{#each context}}
+    <tr>
+      <td>
+        {{_id}}
+      </td>
+      <td>
+        {{Benzyzna}}
+      </td>
+      <td>
+        {{Uszkodozny}}
+      </td>
+      <td>
+        {{naped4}}
+      </td>
+      <td>
+        {{model}}
+      </td>
+      <td>
+        {{Ubezpieczony}}
+      </td>
+      <td>
+        <button
+          onclick="alert('id: {{_id}}' + '\n' + 'Benzyna: {{Benzyna}}' + '\n' + 'Uszkodzony : {{Uszkodzony}}' + '\n' + 'Model: {{model}}' + '\n' + 'Ubezpeiczony: {{Ubezpieczony}}')"
+        >INFO</button>
+
+      </td>
+    </tr>
+  {{/each}}
+</table>

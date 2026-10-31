@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>samochód: {{ getCar}}</h2>
+      <h2>rok produkcji: {{getYear }}</h2>
+
+      <h2>samochód: {{ getCar}}</h2>
+      <h2>rok produkcji: {{getYear }}</h2>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            type: "Fiat",
+            year: 1989,
+            model: "Panda",
+          };
+        },
+        computed: {
+          getCar() {
+            const car = "To jest auto: " + this.type + "" + this.model;
+            console.log(car);
+          },
+          getYear() {
+            const year = "To jest rok: " + this.year;
+            console.log(year);
+            return year;
+          },
+        },
+      }).mount("#app");
+
+      console.log(app.message);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 20%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        input,
+        div,
+        #imagefield,
+        #button {
+            margin: 1em;
+        }
+
+        #imagefield {
+            padding: 1em;
+            background-color: gray;
+            width: fit-content;
+        }
+
+        #uploadbut {
+            background-color: khaki;
+            padding: 1em;
+        }
+
+        #uploadbut:active {
+            background-color: chocolate;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" required multiple accept="image/*" name="imagetoupload" id="fileinput">
+    <div id="uploadbut">Upload</div>
+
+    <div id="imagefield"></div>
+
+    <script>
+        document.getElementById("uploadbut").onclick = function () {
+            const fileInput = document.getElementById("fileinput")
+            if (fileInput.files.length === 0) {
+                console.log("Nie wybrano żadnego pliku")
+                return
+            }
+
+            const data = new FormData()
+            for (const file of fileInput.files) {
+                data.append("imagetoupload", file)   // nazwa pola MUSI się zgadzać z files.imagetoupload na serwerze
+            }
+
+            fetch('/handleform', {
+                method: "POST",
+                body: data
+                // bez headers - przeglądarka sama ustawi multipart/form-data z boundary
+            })
+                .then(function (response) {
+                    if (!response.ok) throw new Error("Status: " + response.status)
+                    return response.json()
+                })
+                .then(function (dataFromServer) {
+                    const pre = document.createElement("pre")
+                    pre.textContent = JSON.stringify(dataFromServer, null, 2)   // 2 = wcięcie w spacjach
+                    document.getElementById("imagefield").append(pre)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
+    </script>
+</body>
+
+</html>

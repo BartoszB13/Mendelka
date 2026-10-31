@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jq40.js"></script>
+    <style>
+        #options {
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 2em;
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            width: fit-content;
+            margin: 1em;
+        }
+
+        button,
+        select,input {
+            margin-left: 1em;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+        
+        #numcontainer {
+            padding: 8em;
+            width: 70%;
+            background-color: lightgray;
+            border: 2px solid gray;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .numbox {
+            background-color: cornflowerblue;
+            padding: 1em;
+            width: 2em;
+            height: 2em;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1px;
+            border: 2px solid black;
+            font-size: 56px;
+            margin: 0.5em;
+        }
+
+        .activenumbox {
+            background-color: green;
+            padding: 2em;
+            size: 3em;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 56px;
+            margin: 0.5em;
+        }
+    </style>
+
+
+
+
+</head>
+<script>
+
+
+    $(document).ready(function () {
+        $("#gen").on("click", function () {
+            $("#numcontainer").empty()
+            
+            let count = $("#select").val()
+            let color = $("#col").val()
+            let size = $("#range").val()
+
+            
+            console.log( color , size)
+
+            let boxactive = null
+            
+            for (let i = 1; i <= count; i++) {
+                let numbox = $(`<div></div>`).addClass("numbox")
+                numbox = numbox.css({
+                  "background-color": `${color}`,
+                  "height": `${size}px`,
+                  "width": `${size}px`
+                })
+                
+                $("#numcontainer").append(numbox)
+
+                numbox.on("click", function () {
+                    let color = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`
+                    console.log(color)
+                    $(this).css({"background-color": `${color}`})
+                    
+                })
+            }
+
+
+        })
+
+
+
+
+    })
+</script>
+
+<body>
+    <h1>02 Petla for, dynamiczne tworzenie i usuwanie html'a</h1>
+    <div id="options" name="form">
+        <select id="select" name="boxcount">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <input type="range" id="range" name="boxsize">
+        <input type="color" id="col" name="boxcolor">
+        
+        <button id="gen">Generuj elementy</button>
+    </div>
+    <div id="numcontainer">
+
+    </div>
+</body>

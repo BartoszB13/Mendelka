@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jq40.js"></script>
+    <style>
+        td {
+            padding: 1em;
+            border: 1px solid black;
+            color: white;
+            background-color: cornflowerblue;
+            width: 2rem;
+            text-align: center;
+        }
+        #ConfirmItemBtun {
+            padding: 1em;
+            background-color: green;
+            width: 2em;
+        }
+        #ConfirmItemBtun:active{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <select id="SelectItem"></select>
+        <div id="ConfirmItemBtun">Dodaj </div>
+    </div>
+    <table id="ItemTable">
+
+    </table>
+    <script>
+        //foreach 
+
+
+        //Gnerowanie tabeli
+        //lista zakupow
+        //generowanie tabeli td tr wierszy kolumn
+        //dodawanie lementu / dodawanie ilosci elementu do listy
+
+        //naglowke foreach
+        
+        
+        $(document).ready(function(){
+            const produkty = [
+                { id: 101, nazwa: 'Laptop Pro', cena: 4500 },
+                { id: 102, nazwa: 'Mysz bezprzewodowa', cena: 150 },
+                { id: 103, nazwa: 'Klawiatura mechaniczna', cena: 350 },
+                { id: 104, nazwa: 'Monitor 4K', cena: 1800 }
+            ];
+            
+            produkty.forEach(function(produkt){
+                let option = $('<option>')
+                    .val(produkt.id)
+                    .html(`${produkt.nazwa} cena(${produkt.cena})`)
+                $('#SelectItem').append(option)
+            })
+
+            const header = ["lp", "produkt", "cena", "ilość", "razem"];
+            const cart = [] //lp nazwa cena ilosc 
+            function gen_table(){
+                const table = $('#ItemTable')
+                
+                table.empty()
+                //headers
+                let headrow = $('<tr>')
+                header.forEach(function(name){
+                    headrow.append(`<td>${name}`)
+                })
+                table.append(headrow)
+                
+                let sum = 0
+                cart.forEach(function(item, i){
+                    const total = item.ilosc * item.cena
+                    sum += total
+                    const tr = $('<tr>')
+                    tr.append($('<td>').text(i+1))
+                    tr.append($('<td>').text(item.nazwa))
+                    tr.append($('<td>').text(item.cena))
+                    tr.append($('<td>').text(item.ilosc))
+                    tr.append($('<td>').text(total))
+                    table.append(tr)
+
+                })
+                //sumowanie
+                const tr = $('<tr>')
+                tr.append($('<td>').attr('colspan',4).text('suma'))
+                tr.append($('<td>').text(sum))
+                table.append(tr)
+
+            }
+
+            $('#ConfirmItemBtun').on('click', function(){
+                    // 1. odczyt wybranej opcji (value = id produktu)
+                const id = parseInt($("#SelectItem").val());
+
+                // 2. znalezienie produktu w tablicy produkty
+                const produkt = produkty.find(p => p.id === id);
+
+                // 3. czy jest już w koszyku?
+                const foundIndex = cart.findIndex(item => item.id === id);
+
+                if (foundIndex == -1){
+                    cart.push({
+                        id: produkt.id,
+                        nazwa: produkt.nazwa,
+                        cena: produkt.cena,
+                        ilosc:1
+                    })
+                } else {
+                    cart[foundIndex].ilosc++
+                }
+                gen_table()
+            })
+            
+            gen_table()
+        })
+    </script>
+</body>
+</html>

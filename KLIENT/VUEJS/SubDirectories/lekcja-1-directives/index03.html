@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1
+        :style="{ color: color, backgroundColor: background, fontSize:fontSize + 'px' }"
+      >
+        {{text}}
+      </h1>
+      <input v-model="text" type="text" /> <br />
+
+      <input v-model="color" type="color" /> <br />
+
+      <input v-model="background" type="color" /> <br />
+
+      <input v-model="fontSize" type="range" max="100" />
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            fontSize: 16,
+            text: "",
+            color: "",
+            background: "",
+          };
+        },
+      }).mount("#app");
+      console.log(app.message);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<code><h1>Listowanie elementów</h1></code>
+
+<form id="search" action="/searchCar">
+  <div>
+    <div>
+      <code><h1>Wybierz Ceche</h1></code>
+      <input type="radio" name="charakteristics" value="Ubezpieczony" />
+      Ubezpieczony
+      <input type="radio" name="charakteristics" value="Benzyzna" />
+      Benzyna
+      <input type="radio" name="charakteristics" value="Uszkodozny" />
+      Uszkodzony
+      <input type="radio" name="charakteristics" value="naped4" />
+      Napęd 4x4
+    </div>
+
+    <code><h1>Wybierz wartość</h1></code>
+
+    <div>
+      <input type="radio" name="value" value="tak" />Tak
+      <input type="radio" name="value" value="nie" />Nie
+      <input type="radio" name="value" value="Brak" />BRAK
+    </div>
+  </div>
+  <button type="submit" formaction="/searchCar">Wyszukaj Pojazdy</button>
+
+</form>
+
+<table id="table">
+  <tr>
+    <th>id</th>
+    <th>Benzyna</th>
+    <th>Uszkodozny</th>
+    <th>napęd 4x4</th>
+    <th>model</th>
+    <th>Ubezpieczony</th>
+  </tr>
+
+  {{#each context}}
+    <tr>
+      <td>
+        {{_id}}
+      </td>
+      <td>
+        {{Benzyzna}}
+      </td>
+      <td>
+        {{Uszkodozny}}
+      </td>
+      <td>
+        {{naped4}}
+      </td>
+      <td>
+        {{model}}
+      </td>
+      <td>
+        {{Ubezpieczony}}
+      </td>
+    </tr>
+  {{/each}}
+</table>

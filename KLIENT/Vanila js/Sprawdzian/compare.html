@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function compare(a,b,c){
+            let table_number = [a,b,c]
+            let check_duplicate_table = []
+            let maxiumum_number = table_number[0]
+            let minimum_number = table_number[0]
+            let count_avarage = true
+
+            let sum = 0
+            for ( let i = 0; i < table_number.length; i++){
+                check_duplicate_table.push(table_number[i])
+                if(check_duplicate_table.indexOf(table_number[i])!= -1){
+                    count_avarage = false
+                }
+
+                if (table_number[i] > maxiumum_number){
+                    maxiumum_number = table_number[i]
+                } 
+                if (table_number[i] < minimum_number){
+                    minimum_number = table_number[i]
+                }
+                sum += table_number[i]
+            }
+
+            if (count_avarage){
+                let avarage = sum/(table_number.length)
+                console.log(`Maxymalna liczba : ${maxiumum_number}, Minimalna liczba : ${minimum_number} a srednia to : ${avarage}`) 
+            }
+            else {
+                console.log(`Maxymalna liczba : ${maxiumum_number}, Minimalna liczba : ${minimum_number} sa liczby rowne`)
+            }
+
+
+        }
+        compare(2,44,2)
+    </script>
+</body>
+</html>

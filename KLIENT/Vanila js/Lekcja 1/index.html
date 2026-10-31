@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let powiadomienie = prompt("wybierz liczbe")
+
+        
+        for (let i = 0; i < powiadomienie; i++){
+            let linia = "";
+            for (let kolumna = 0; kolumna < powiadomienie ; kolumna++){
+                if (i == 0 || i == (powiadomienie-1) || kolumna == 0 || kolumna == (powiadomienie-1)){
+                    linia += "X "
+                } 
+                else {
+                    linia += ("&nbsp;"+"&nbsp;")
+                }
+            }
+            document.write("<pre>" + linia + "<br>" )
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

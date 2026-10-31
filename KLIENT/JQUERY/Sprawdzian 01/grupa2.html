@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projekty i zadania (jQuery, bez własnych funkcji)</title>
+ 
+<!-- Wczytujemy jQuery z internetu. Bez tej linijki znak $ nie działa. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ 
+<style>
+  body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 20px; }
+ 
+  /* Ramka jednego projektu */
+  .projekt { background: #fff; border: 1px solid #ccc; padding: 10px; margin-bottom: 12px; }
+ 
+  /* Jedno zadanie: dwie kolumny obok siebie (lewy i prawy panel) */
+  .zadanie { display: flex; border: 1px solid #ddd; margin-bottom: 6px; }
+  .lewy  { width: 40%; background: #eef; padding: 8px; box-sizing: border-box; }
+  .prawy { flex: 1; padding: 8px; }
+ 
+  /* Domyślna szara ramka selecta (gdyby nie było priorytetu) */
+  select { border: 3px solid #999; padding: 3px; }
+ 
+  /* TU DZIEJE SIĘ MAGIA KOLORÓW (pkt 3):
+     JS doda selectowi klasę "low", "medium" albo "high",
+     a CSS na tej podstawie zmieni kolor ramki. */
+  select.low    { border-color: green; }
+  select.medium { border-color: orange; }
+  select.high   { border-color: red; }
+ 
+  .formularz { background: #fff; border: 1px solid #ccc; padding: 10px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+ 
+<!-- Pusty kontener. JS wstawi tu wszystkie projekty. -->
+<div id="projekty"></div>
+ 
+<!-- Formularz: dodawanie pustego projektu -->
+<div class="formularz">
+  <b>Nowy projekt</b><br>
+  <input type="text" id="nazwaProjektu" placeholder="Nazwa projektu">
+  <button id="dodajProjekt">Dodaj pusty projekt</button>
+</div>
+ 
+<!-- Formularz: dodawanie zadania.
+     Select z priorytetami ma klasę "priorytet", dzięki temu
+     kolor jego ramki też będzie się zmieniał. -->
+<div class="formularz">
+  <b>Nowe zadanie</b><br>
+  <input type="text" id="nazwaZadania" placeholder="Nazwa zadania">
+  <input type="number" id="dniZadania" value="1" min="1" max="30">
+  <select id="priorytetZadania" class="priorytet"></select>
+  <!-- Ten select pokazuje listę projektów (pkt 8 i 9) -->
+  <select id="wyborProjektu"></select>
+  <button id="dodajZadanie">Dodaj zadanie</button>
+</div>
+</body>
+<script>
+    
+</script>
+</html>

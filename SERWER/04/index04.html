@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porgres</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            border: 1px solid black;
+        }
+        #Uploadbutton{
+            background-color: darkgray;
+            text-align: center;
+            border: 1px solid black;
+            padding: 1em;
+            margin: 1em;
+        }
+        #Uploadbutton:active{
+            background-color: darkslategray;
+            color: white;
+        }
+
+        #imagefield, #status {
+            margin: 1em;
+            background-color: lightblue;
+            border: 1px dashed cornflowerblue;
+            padding:1em 0 1em 0 ;
+        }
+        #greenprogessbar{
+            background-color: forestgreen;
+            height:25px;
+            width: 1%;
+        }
+        #grayprogresbar {
+            padding:1em 0 1em 0 ;
+            margin: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="width:30%;">
+        <input type="file" required name="fileinput" id="fileinput">Images only
+        <div id="Uploadbutton">ULOAD</div>
+        <div class="container">
+            <div id="grayprogresbar">
+                <div id="greenprogessbar"></div>
+            </div>
+            <div id="status"></div>
+            <div id="imagefield"></div>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById('Uploadbutton').onclick = function(){
+        const fd = new FormData();
+        const fileinput = document.getElementById("fileinput");
+        fd.append("fileinput", fileinput.files[0]);
+        //Drugi fetch do odbierania statusu uploadu z serwera
+        const body = fd;
+        const FetchDataFromServerInterval = setInterval(function(){
+            fetch('/Getstatus')
+                .then(function(responce){
+                    return responce.json()
+                })
+                .then(function(StatusFromServer){
+                    document.getElementById("grayprogresbar").innerHTML = 
+                    `<div id='greenprogessbar' style="width:${StatusFromServer.precent}%"></div>`
+                    document.getElementById('status').innerText = `${StatusFromServer.precent}`
+                    if (StatusFromServer.precent >= 100){
+                        clearInterval(FetchDataFromServerInterval)
+                    }
+                })
+                .catch(function(error){
+                    return error
+                })
+            
+        },200)
+
+
+
+        //Pierwszy fetch do przesłania pliku
+        fetch('/uploadFile',{method:'POST',body})
+            .then(function(responce){
+                return responce.json()
+            })
+            .then(function(dataFromServer){
+                document.getElementById('imagefield').innerHTML = 
+                `<img src='${dataFromServer.data.path}' style="max-width:300px">`
+            })
+            .catch(function(err){
+                return err
+            })
+    }
+</script>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #BoxContainer0 {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+        }
+
+        .box {
+            border: 1px solid black;
+            display: flex;
+            width: 50px;
+            aspect-ratio: 1;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <input type="number" id="number">
+    <button id="subbmit">submit</button>
+    <div id="BoxContainer0" class="box"></div>
+    <script>
+
+        
+        
+        function random_color_from_list(){
+            const colorsAvalible = ['red', 'limegreen', 'royalblue', 'orange', 'magenta']
+            let random_table_index = Math.floor(Math.random()*colorsAvalible.length)
+            let color = colorsAvalible[random_table_index]
+            
+            return color
+        }
+        
+        function random_width_less_than_parent(){
+            let random_width = (Math.floor(Math.random()*20) +50)/100
+            return random_width
+        }
+        document.getElementById('subbmit').onclick = function(){
+            let sqaure_number = document.getElementById('number').value
+            if (!sqaure_number || isNaN(sqaure_number)|| sqaure_number<=0){
+                return document.getElementById('BoxContainer0').innerText = 'Wpisz poprawna liczba wieksza od zera'
+            }
+            let squares_table = [500]
+            let parent = document.getElementById('BoxContainer0')
+            document.getElementById('BoxContainer0').innerHTML = ''
+            for (let squre_index = 1; squre_index <= sqaure_number; squre_index++){
+                let div = document.createElement(`div`)
+
+
+
+                div.addEventListener('mouseenter',function(event) {
+                    div.style.backgroundColor = random_color_from_list()
+                    event.stopPropagation()
+                    
+                })
+                div.addEventListener('mouseleave', function(event){
+                    div.style.backgroundColor = ''
+                    event.stopPropagation()
+                })
+                
+                let parent_width = squares_table[squre_index-1]
+                let child_width = parent_width * random_width_less_than_parent()
+                squares_table.push(child_width)
+
+                div.className = 'box'
+                div.id = `BoxContainer0${squre_index}`
+                div.style.width = child_width + 'px'
+
+                parent.append(div)
+                parent = div
+                
+                
+            }
+            
+        }
+        
+    </script>
+</body>
+</html>

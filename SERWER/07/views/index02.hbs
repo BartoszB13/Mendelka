@@ -1,0 +1,26 @@
+<h1>03: nedb - find, remove</h1>
+
+<form action="/delete" method="post">
+    <table class="table">
+        <tr>
+            {{#each tableHeader}}
+                <th>{{title}}</th>
+            {{/each}}
+            <th></th>
+        </tr>
+
+        {{#each devices}}
+            <tr>
+                <td>{{lp}}</td>
+                <td>{{name}}</td>
+                <td>{{price}} $</td>
+                <td><input type="checkbox" name="selectedIds" value="{{_id}}"></td>
+            </tr>
+        {{/each}}
+    </table>
+
+    <button type="submit" class="btn btn-danger">usuń zaznaczone</button>
+    <a href="/restore" class="btn btn-primary">przywróć dane</a>
+</form>
+
+<p style="color: red;">{{message}}</p>

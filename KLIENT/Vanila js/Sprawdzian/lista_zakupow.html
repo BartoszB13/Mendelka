@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista zakupów</title>
+    <style>
+        .bought {
+            color: gray;
+            text-decoration: line-through;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+        li button {
+            margin-left: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <h2>Lista zakupów</h2>
+
+    <input type="text" id="productInput" placeholder="Nazwa produktu">
+    <button id="addButton">Dodaj</button>
+
+    <ul id="shoppingList"></ul>
+
+    <script>
+        const productInput = document.getElementById('productInput')
+        const addButton = document.getElementById('addButton')
+        const shoppingList = document.getElementById('shoppingList')
+
+        function addProduct() {
+            const productName = productInput.value.trim()
+            if (productName === '') {
+                return
+            }
+
+            const listItem = document.createElement('li')
+
+            const productLabel = document.createElement('span')
+            productLabel.textContent = productName
+
+            const boughtButton = document.createElement('button')
+            boughtButton.textContent = 'Kupione'
+            boughtButton.addEventListener('click', () => {
+                productLabel.classList.add('bought')
+            })
+
+            const removeButton = document.createElement('button')
+            removeButton.textContent = 'Usuń'
+            removeButton.addEventListener('click', () => {
+                listItem.remove()
+            })
+
+            listItem.append(productLabel, boughtButton, removeButton)
+            shoppingList.append(listItem)
+
+            productInput.value = ''
+        }
+
+        addButton.addEventListener('click', addProduct)
+    </script>
+</body>
+</html>

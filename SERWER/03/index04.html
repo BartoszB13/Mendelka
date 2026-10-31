@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .container {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+            padding: 2em;
+            border: 1px solid black;
+            border-radius: 10px;
+            background-color: cornflowerblue;
+            color: white;
+        }
+        select,h1 {
+            margin-bottom: 2em;
+            
+        }
+
+        h1 {
+            border: 1px solid orange;
+            padding: 1em;
+            border-radius: 10px;
+            
+            background-color: orange;
+        }
+
+        input {
+            margin-bottom: 1em;
+        }
+        #colorbox {
+            padding: 4em;
+            border-radius:10px ;         
+            background-color: rgba(0,0,0,1);     
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fetch</h1>
+        <input type="range" id="red" value="" max="255">Red
+        <input type="range" id="green" value="" max="255">Green
+        <input type="range" id="blue" value="" max="255">Blue
+        <input type="range" id="alpha" value="" max="100">opacity
+        <div id="colorbox">
+    
+        </div>
+    </div>
+
+</body>
+<script>
+    function sendcolor(){
+        console.log('rrrrr')
+        const data = JSON.stringify({
+            r: document.getElementById('red').value,
+            g: document.getElementById('green').value,
+            b: document.getElementById('blue').value,
+            a: document.getElementById('alpha').value,
+        })
+        const options = {
+            method : "POST",
+            headers: {"Content-Type": "application/json"},
+            body:data
+        }
+        fetch('/colors',options)
+            .then(function(response){
+                return response.json()
+                
+            })
+            .then(function(dataFromServer){
+                console.log(dataFromServer)
+                document.getElementById('colorbox').style.backgroundColor = dataFromServer
+            })
+    }
+
+    document.getElementById("red").oninput = sendcolor
+    document.getElementById("green").oninput = sendcolor
+    document.getElementById("blue").oninput = sendcolor
+    document.getElementById("alpha").oninput = sendcolor
+
+</script>
+</html>

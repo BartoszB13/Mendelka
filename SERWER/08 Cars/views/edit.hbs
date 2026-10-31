@@ -1,0 +1,105 @@
+<h1><code>Edytowanie listy</code></h1>
+
+<form method="get">
+  <table>
+    <tr>
+      <th>id</th>
+      <th>Benzyna</th>
+      <th>Uszkodzony</th>
+      <th>Nęd 4x4</th>
+      <th>Model</th>
+      <th>Ubezpieczony</th>
+      <th>Edytuj</th>
+    </tr>
+
+    {{#each context}}
+      <tr>
+        <td>{{_id}}</td>
+
+        <td>
+          {{#if isEditing}}
+            <select name="Benzyzna">
+              <option value="{{Benzyzna}}" selected>{{Benzyzna}}
+                (obecnie)</option>
+              <option value="tak">tak</option>
+              <option value="nie">nie</option>
+              <option value="Brak">BRAK</option>
+            </select>
+          {{else}}
+            {{Benzyzna}}
+          {{/if}}
+        </td>
+
+        <td>
+          {{#if isEditing}}
+            <select name="Uszkodozny">
+              <option value="{{Uszkodozny}}" selected>{{Uszkodozny}}
+                (obecnie)</option>
+              <option value="tak">tak</option>
+              <option value="nie">nie</option>
+              <option value="Brak">BRAK</option>
+            </select>
+          {{else}}
+            {{Uszkodozny}}
+          {{/if}}
+        </td>
+
+        <td>
+          {{#if isEditing}}
+            <select name="naped4">
+              <option value="{{naped4}}" selected>{{naped4}} (obecnie)</option>
+              <option value="tak">tak</option>
+              <option value="nie">nie</option>
+              <option value="Brak">BRAK</option>
+            </select>
+          {{else}}
+            {{naped4}}
+          {{/if}}
+        </td>
+
+        <td>
+          {{#if isEditing}}
+            <input name="model" type="text" value="{{model}}" />
+          {{else}}
+            {{model}}
+          {{/if}}
+        </td>
+
+        <td>
+          {{#if isEditing}}
+            <select name="Ubezpieczony">
+              <option value="{{Ubezpieczony}}" selected>{{Ubezpieczony}}
+                (obecnie)</option>
+              <option value="tak">tak</option>
+              <option value="nie">nie</option>
+              <option value="Brak">BRAK</option>
+            </select>
+          {{else}}
+            {{Ubezpieczony}}
+          {{/if}}
+        </td>
+
+        <td>
+          {{#if isEditing}}
+            <button
+              type="submit"
+              formaction="/saveCar"
+              name="id"
+              value="{{_id}}"
+            >Zapisz</button>
+
+            <a href="/edit">Anuluj</a>
+          {{else}}
+            <button
+              type="submit"
+              formmethod="get"
+              formaction="/editCarsId"
+              name="editbutton"
+              value="{{_id}}"
+            >Edytuj</button>
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
+  </table>
+</form>

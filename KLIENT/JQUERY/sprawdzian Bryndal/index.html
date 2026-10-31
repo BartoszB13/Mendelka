@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jq40.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left-panel {
+            border: 1px solid black;
+            flex: 1;
+            padding: 1em;
+            margin: 1em;
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+
+        }
+
+        .right-panel {
+            flex: 2;
+            margin: 1em;
+            padding: 1em;
+            border: 1px solid black;
+        }
+
+        .catagoryInMagazie {
+            border: 1px dashed gray;
+            display: flex;
+            flex-direction: column;
+            padding: 1em;
+            margin: 1em;
+
+        }
+
+        .nostock {
+            background-color: red;
+            color: white;
+            width: 1em;
+            aspect-ratio: 1;
+        }
+
+        .low {
+            background-color: orange;
+            color: blue;
+            width: 1em;
+            aspect-ratio: 1;
+        }
+
+        .big {
+            background-color:
+                green;
+            color: white;
+            width: 1em;
+            aspect-ratio: 1;
+        }
+
+        .product {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+        }
+
+        .product>div {
+            margin: 1em;
+        }
+
+        .options {
+            width: 70%;
+            height: 2em;
+        }
+
+        .left-panel>* {
+            margin: 1em;
+        }
+
+        .left-panel>button {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        .left-panel>select,
+        input {
+            padding: 1em;
+        }
+
+        .oneproduct {
+            width: 33%;
+            background-color: blue;
+        }
+
+        .twoproduct {
+            width: 66%;
+            background-color: blue;
+        }
+
+        .threeproduct {
+            width: 100%;
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sprawdzian - magazyn</h1>
+    <div class="wrapper">
+        <div class="left-panel">
+
+            <h3>Dodaj kategorie</h3>
+            <input>
+            <button>Dodaj Katagorie</button>
+
+
+            <h3>Dodaj produkt</h3>
+            <p>Kategoria</p>
+            <select id="katagoria"></select>
+            <p>Nazwa produkty</p>
+            <input name="name">
+            <p>Ilosc sztuk</p>
+            <select name="quant">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
+            <p> status</p>
+            <select name="aval">
+                <option value="Dostepny">Dostepny</option>
+                <option value="NIEDostepny">NIEDostepny</option>
+            </select>
+            <button>Dodaj produkt</button>
+
+        </div>
+        <div class="right-panel"></div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const dane = {
+                kategorie: [
+                    {
+                        id: 1,
+                        nazwaKategorii: "Sprzęt IT",
+                        produkty: [
+                            { id: 101, nazwa: "Klawiatura mechaniczna", stan: "Dostępny", iloscSztuk: 12 },
+                            { id: 102, nazwa: "Monitor 27 cali", stan: "Wstrzymany", iloscSztuk: 2 },
+                            { id: 103, nazwa: "Kabel HDMI 2m", stan: "Dostępny", iloscSztuk: -3 }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        nazwaKategorii: "Materiały biurowe",
+                        produkty: [
+                            { id: 201, nazwa: "Papier A4 (ryza)", stan: "Dostępny", iloscSztuk: 50 },
+                            { id: 202, nazwa: "Toner do drukarki", stan: "Wstrzymany", iloscSztuk: 1 },
+                            { id: 203, nazwa: "Długopisy niebieskie", stan: "Wstrzymany", iloscSztuk: 0 }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        nazwaKategorii: "Akcesoria BHP",
+                        produkty: [
+                            { id: 301, nazwa: "Rękawice ochronne", stan: "Dostępny", iloscSztuk: 25 },
+                            { id: 302, nazwa: "Apteczka", stan: "Dostępny", iloscSztuk: 8 }
+                        ]
+                    }
+                ]
+            }
+            let RightPanel = $('<div>')
+
+
+            let LeftPanel = $('<div>')
+            //h2 podlgad agazynu
+            RightPanel.append('<h2>Podgląd magazynu')
+            $('.right-panel').append(RightPanel)
+
+            // Komórki per element listy 
+            let CatagoryTypesNum = dane.kategorie.length
+
+            console.log(CatagoryTypesNum)
+
+            for (let Catagory_Index = 0; Catagory_Index < CatagoryTypesNum; Catagory_Index++) {
+                let CategoryTileName = dane.kategorie[Catagory_Index].nazwaKategorii
+                let CatagoryProducts = dane.kategorie[Catagory_Index].produkty
+                let CatagoryProductsCount = CatagoryProducts.length
+
+                let unavalibleproductcount = 0
+                let CategoryDIV = $('<div>')
+                CategoryDIV.addClass('catagoryInMagazie')
+                CategoryDIV.append(`<h2>${CategoryTileName}`)
+
+                for (let productInCategoryIndex = 0; productInCategoryIndex < CatagoryProductsCount; productInCategoryIndex++) {
+                    let product = $('<div>')
+
+                    let productName = CatagoryProducts[productInCategoryIndex].nazwa
+                    let productstate = CatagoryProducts[productInCategoryIndex].stan
+                    let productquant = CatagoryProducts[productInCategoryIndex].iloscSztuk
+
+                    let productquantwidnow = $('<div>')
+                    productquantwidnow.text(productquant)
+                    product.addClass('product')
+
+
+                    if (productquant <= 5) {
+                        productquantwidnow.addClass('nostock')
+                    }
+                    if (productquant >= 5) {
+                        productquantwidnow.addClass('low')
+                    }
+                    if (productquant > 15) {
+                        productquantwidnow.addClass('big')
+                    }
+
+
+
+                    product.append(`<div>${productName}`)
+
+                    product.append(productquantwidnow)
+
+
+                    if (productstate == 'Dostępny') {
+                        let html = $(`<select>`)
+                        html.html('<option>Wstrzymany</otpion><option>Dostępny</otpion>')
+                        html.addClass('options')
+                        product.append(html)
+                    } else {
+                        let html = $(`<select>`)
+                        html.html(`<option>Wstrzymany</otpion><option selected='selected'>Dostępny</otpion>`)
+                        html.addClass('options')
+                        product.append(html)
+                    }
+                    $('.options').change(function () {
+
+                    })
+
+                    let emptyprogresbar = $('<div>')
+                    let filingprogresbar = $('<div>')
+                    filingprogresbar.addClass('filling')
+                    emptyprogresbar.html(filingprogresbar)
+
+
+
+
+
+                    CategoryDIV.append(product)
+
+
+
+                }
+
+
+                RightPanel.append(CategoryDIV)
+
+
+
+
+            }
+
+
+
+
+
+        })
+
+
+    </script>
+</body>
+
+</html>

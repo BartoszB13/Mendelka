@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+    <style>
+      ul {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <input v-model="moreThanValue" type="number" />
+      <h1 v-html="moreThanValue"></h1>
+      <h1><code>5 Porduktów</code></h1>
+      <li v-for="item in products">
+        {{item.name}} | {{item.price}}zł | {{item.category}}
+      </li>
+
+      <h1><code>Filtr() ></code></h1>
+      <li v-for="item in resultFilter">
+        {{item.name}} | {{item.price}}zł | {{item.category}}
+      </li>
+
+      <h1><code>Obniżone ceny o 10%</code></h1>
+      <li v-for="item in resultMap">
+        {{item.name}} | {{item.price}}zł | {{item.category}}
+      </li>
+      <h1><code>Suma wszystkich produktów</code></h1>
+      <code><h3 v-text="resultSum"></h3></code>
+
+      <h1><code>Suma skategoryzowanych produktów</code></h1>
+      <code><h3 v-text="resultCategorySum"></h3></code>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            products: [
+              {
+                id: 1,
+                name: "Książka 'VueJS'",
+                price: 35.99,
+                category: "Książki",
+              },
+              {
+                id: 2,
+                name: "Słuchawki Pro",
+                price: 129.99,
+                category: "Elektronika",
+              },
+              {
+                id: 3,
+                name: "Myszka bezprzewodowa",
+                price: 49.5,
+                category: "Elektronika",
+              },
+              { id: 4, name: "Zeszyt A4", price: 8.0, category: "Artykuły" },
+              {
+                id: 5,
+                name: "Monitor 4K",
+                price: 999.0,
+                category: "Elektronika",
+              },
+            ],
+            moreThanValue: 50,
+            multiplier: 20,
+            categorySelected: "Artykuły",
+          };
+        },
+        computed: {
+          resultFilter() {
+            return this.filterTable(this.products, this.moreThanValue);
+          },
+          resultMap() {
+            return this.getMappedPrices(this.products, this.multiplier);
+          },
+          resultSum() {
+            return this.getproductValue(this.products);
+          },
+          resultCategorySum() {
+            return this.getCategoryValue(this.products, this.categorySelected);
+          },
+        },
+        methods: {
+          filterTable(table, moreValue) {
+            return table.filter((element) => element.price < moreValue);
+          },
+          getMappedPrices(table, multiplier) {
+            return table.map((element) => ({
+              ...element,
+              price: Math.floor((element.price * (100 - multiplier)) / 100),
+            }));
+          },
+          getproductValue(table) {
+            return Math.floor(
+              table.reduce((sum, element) => sum + element.price, 0),
+            );
+          },
+          getCategoryValue(table, categorySelected) {
+            let filteredTable = table.filter(
+              (element) => element.category == categorySelected,
+            );
+            return Math.floor(filteredTable.reduce(
+              (sum, element) => sum + element.price,
+              0,
+            ))
+          },
+        },
+      }).mount("#app");
+
+      console.log(app.resultMap);
+      console.log(app.resultSum);
+      console.log(app.resultCategorySum);
+    </script>
+  </body>
+</html>

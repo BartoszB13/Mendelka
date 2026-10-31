@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>długość tekstu: {{ getTextLength2() }}</h2>
+      <h2>długość tekstu: {{ getTextLength(text) }}</h2>
+
+      <h2 v-text="getTextLength(text)"></h2>
+      <h2 v-html="getTextLengthWithHTML()"></h2>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            text: "to jest tekst",
+            length: 0,
+          };
+        },
+      }).mount("#app");
+      
+
+      console.log(app.message);
+    </script>
+  </body>
+</html>

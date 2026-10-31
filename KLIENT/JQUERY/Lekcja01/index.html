@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', Courier, monospace;
+            flex-direction: column;
+        }
+
+        #HoverFld {
+            padding: 3em;
+            align-items: center;
+            background: gray;
+            color: gray;
+        }
+
+        #SwitchBtn {
+            padding: 2em;
+            background: gray;
+            margin:1em;
+        }
+    </style>
+    <script src="/jq40/jq40.js"></script>
+    <script>
+        $(document).ready(function(){
+            let stan = true
+            if (stan) {
+                $("#SwitchBtn").on('click', function(){
+                    if (stan){
+                        $("h1")
+                            .css('color','red')
+                            .html("Ona ona ona");
+                        $("#SwitchBtn")
+                            .css('background','red')
+                            .css("color",'white');
+                        $('#HoverFld').on('mouseover', function(){
+                            $('#HoverFld')
+                                .css('background','red')
+                                .css('color','white');
+                        })
+                        $('#HoverFld').on('mouseleave', function(){
+                            $('#HoverFld')
+                                .css('background','gray')
+                                .css('color','gray');
+                        })
+                        stan = false;
+
+                        
+                    } else {
+                        console.log("skividia")
+                        $("#HoverFld")
+                            .css('background','gray')
+                            .css('color','gray');
+                        $("#SwitchBtn")
+                            .css('background','gray')
+                            .css("color",'black');
+                        $("h1")
+                            .html("Ona temu winna")
+                            .css('color', 'blue')
+
+                        
+                        stan = true;                    
+                    }
+                
+                })
+                
+            }
+        
+        
+        })
+    </script>
+</head>
+
+<body>
+    <code><h1>Wariant tekstu1</h1></code>
+    <div id="SwitchBtn"> DODAJ / USUN</div>
+    <div id="HoverFld">
+        <p>Tkest zwyczajny</p>
+        <p style="font-style: italic;">Tekst italic</p>
+    </div>
+</body>
+
+</html>

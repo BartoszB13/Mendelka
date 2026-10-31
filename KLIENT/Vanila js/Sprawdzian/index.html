@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #countdown {
+            border: 1px solid black;
+            padding: 2em;
+            width: 1em;
+            height: 1em;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="number">
+    <button id="submit">Start</button>
+    <div id="countdown"></div>
+    <script>
+        document.getElementById('submit').onclick = function(){
+            let number_input = document.getElementById("number").value;
+            if (!number_input || number_input <= 0 || isNaN(number_input)){
+                return document.getElementById('countdown').textContent = `Wpisz poprawne dane`
+            }
+            document.getElementById('countdown').innerHTML =
+                `${number_input}`
+            let countdown_interval = setInterval(function(){
+                number_input -= 1
+                document.getElementById('countdown').innerHTML =
+                `${number_input}`
+                if (number_input <= 0){
+                    clearInterval(countdown_interval)
+                    return document.getElementById('countdown').textContent = `koniec `
+                }
+            },1000)
+    
+    
+        }
+        
+    </script>
+</body>
+</html>
