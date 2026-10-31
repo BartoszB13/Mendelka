@@ -8,7 +8,7 @@ const PORT = 3000
 
 
 // app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'index01.html'))
+//     res.sendFile(path.join(__dirname, '01 - strona serwera lokalnego.html'))
 //     let BlueDivCount = req.query.p1
 //     let html = ''
 
@@ -41,7 +41,7 @@ const PORT = 3000
 //     let filename
 
 //     if (index == 1) {
-//         filename = 'psy'
+//         filename = '03 - strona o psach'
 //     }
 
 

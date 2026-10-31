@@ -7,7 +7,7 @@ const PORT = 3001;
 app.use(express.static(__dirname + "/SubDirectories"));
 
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname + "/index.html"));
+  res.sendFile(path.join(__dirname + "/01 - spis lekcji VueJS.html"));
 });
 
 const filenames = fs.readdirSync(__dirname + "/SubDirectories");

@@ -10,7 +10,7 @@ app.use(express.urlencoded({
 
 }));
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index04.html'))
+    res.sendFile(path.join(__dirname, '04 - formularz danych użytkownika.html'))
 })
 
 

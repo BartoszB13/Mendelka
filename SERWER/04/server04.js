@@ -9,7 +9,7 @@ const fs = require("fs")
 
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index04.html'))
+    res.sendFile(path.join(__dirname, '04 - postęp przesyłania pliku.html'))
 })
 
 

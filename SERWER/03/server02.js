@@ -13,7 +13,7 @@ app.use(express.urlencoded({
 let logowania = []
 
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "index02.html"))
+    res.sendFile(path.join(__dirname, "02 - wysyłanie danych logowania.html"))
 })
 
 app.post("/login", function (req, res) {

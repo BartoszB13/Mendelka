@@ -15,7 +15,7 @@ const uploadDirectory = path.join(__dirname, 'upload')
 fs.mkdirSync(uploadDirectory, { recursive: true })
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index04.html'))
+    res.sendFile(path.join(__dirname, '03 - przesyłanie pojedynczego pliku.html'))
 })
 
 // Lets the browser open uploaded files, e.g. /upload/photo.jpg

@@ -7,7 +7,7 @@ const formidable = require('formidable')
 
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'))
+    res.sendFile(path.join(__dirname, '01 - przesyłanie wielu obrazów.html'))
 })
 
 app.post('/handleform', function (req, res) {

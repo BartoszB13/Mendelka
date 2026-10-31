@@ -8,7 +8,7 @@ const { pathToFileURL } = require('url');
 
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index02.html'))
+    res.sendFile(path.join(__dirname, '02 - podgląd przesłanego obrazu.html'))
 })
 
 app.use('/upload', express.static(__dirname + '/upload'))

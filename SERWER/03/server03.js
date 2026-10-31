@@ -12,7 +12,7 @@ app.use(express.urlencoded({
 
 
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "index03.html"))
+    res.sendFile(path.join(__dirname, "03 - przesyłanie wartości suwaka.html"))
 })
 
 app.post("/range", function (req, res) {

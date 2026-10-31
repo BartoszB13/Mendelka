@@ -7,7 +7,7 @@ const path = require('path')
 
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index02.html'))
+    res.sendFile(path.join(__dirname, '02 - rezerwacja seansu kinowego.html'))
 })
 
 let bilety = []

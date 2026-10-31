@@ -9,7 +9,7 @@ const fs = require("fs")
 
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index03.html'))
+    res.sendFile(path.join(__dirname, '03 - przesyłanie różnych plików.html'))
 })
 
 app.use('/upload', express.static(__dirname + '/upload'))

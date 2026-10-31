@@ -10,7 +10,7 @@ app.use(express.urlencoded({
 
 }));
 app.get('/', function(req,res){
-    res.sendFile(path.join(__dirname, 'index01.html'))
+    res.sendFile(path.join(__dirname, '01 - podstawowe pola formularza.html'))
 })
 
 app.post('/handleform', function(req,res){
