@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+    <style>
+      .active {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <select>
+        <option v-for="number in GetUniqueNumbers">{{number}}</option>
+      </select>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            array: [
+              [1, 2, 3, 3, 3],
+              [4, 4, 4, 7, 1],
+              [2, 3, 3, 2, 1],
+              [5, 5, 6, 4, 3],
+              [1, 5, 1, 2, 5],
+            ],
+          };
+        },
+        computed: {
+          GetUniqueNumbers() {
+            let uniqueNums = [];
+            let gameArray = this.array.flat();
+            for (let i = 0; i < gameArray.length; i++) {
+              if (!(gameArray[i] in uniqueNums)) {
+                uniqueNums.push(gameArray[i]);
+              }
+            }
+            return uniqueNums;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

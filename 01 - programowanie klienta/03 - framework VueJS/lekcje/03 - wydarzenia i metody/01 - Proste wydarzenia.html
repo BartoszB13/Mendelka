@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <div v-on:click="onClick">CLICK ME!</div>
+
+      <input type="checkbox" v-on:click="onCheckbox" />
+      <button v-on:click="onButtonClick">KLIK</button>
+
+      <!-- <div @click="onClick">CLICK ME!</div>
+
+      <input type="checkbox" @click="onCheckbox" />
+      <button @click="onButtonClick">KLIK</button>
+
+      <select v-on:change="onChange">
+        <option>[wybierz]</option>
+        <option>option 1</option>
+        <option>option 2</option>
+      </select>
+
+      <select v-model="selected2">
+        <option selected>[wybierz]</option>
+        <option>option 1</option>
+        <option>option 2</option>
+      </select>
+      <div>{{ selected2 }}</div>
+      <div>{{ selected }}</div>
+
+      <input type="range" v-on:input="onInput" min="0" max="100" /> -->
+
+      <h1>Events</h1>
+
+      <div>
+        <p>cw - kliknij diva</p>
+        <div @click="onButtonClick">Klikididki</div>
+
+        <p>cw - wartosc selekta</p>
+        <select v-on:change="onChange">
+          <option selected>[wybierz]</option>
+          <option>option 1</option>
+          <option>option 2</option>
+        </select>
+        {{selected}}<br />
+
+        <p>cw - wartosc (value) range<br /></p>
+        <input type="range" v-on:input="onInput" min="0" max="1000" />
+        {{selectedInput}}
+      </div>
+
+      <div>
+        <p>cw - wartosc value z checkobxa</p>
+        <input type="checkbox" v-on:click="onCheckbox" />
+        {{selectedChekbox}}
+
+        <p>cw - klik button</p>
+        <button v-on:click="onAdditionButton">Dodaj</button>
+        {{buttonclickedtimes}}
+        <p>Ćwiczenie</p>
+        <button v-on:click="exponentiation">Poteguj</button>
+        {{exponentiationRes}}
+      </div>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            selected: "not selected",
+            selectedInput: "not selected",
+            selectedChekbox: false,
+            buttonclickedtimes: 0,
+            exponentiationRes: 0,
+          };
+        },
+        methods: {
+          onButtonClick() {
+            console.log("CLICK");
+          },
+
+          onAdditionButton(e) {
+            this.buttonclickedtimes++;
+          },
+
+          exponentiation(e) {
+            this.exponentiationRes = 2 ** this.buttonclickedtimes;
+          },
+
+          onChange(e) {
+            this.selected = e.target.value;
+            alert(e.target.value);
+          },
+
+          onCheckbox(e) {
+            console.log(e.target.checked);
+            this.selectedChekbox = e.target.checked;
+          },
+
+          onInput(e) {
+            console.log(e.target.value);
+            this.selectedInput = e.target.value;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
