@@ -6,21 +6,50 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Document</title>
     <style>
+      .row {
+        display: flex;
+
+        flex-direction: row;
+      }
       .active {
-        color: red;
+        background-color: green;
+      }
+      .disactive {
+        background-color: lightgray;
+      }
+      .box {
+        padding: 1em;
+        border: 1px solid black;
+        margin: 10px;
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <select>
-        <option v-for="number in GetUniqueNumbers">{{number}}</option>
+      <select v-on:change="onChange">
+        <option value="0">Wybierz liczbę</option>
+        <option v-for="number in GetUniqueNumbers" :value="number">
+          {{number}}
+        </option>
       </select>
+      <div v-for="row in array" class="row">
+        <button
+          v-for="column in row"
+          class="box"
+          :class="makeButtonClass(column)"
+          :disabled="makeDisabledAttr(column)"
+          @click="message(column)"
+        >
+          {{ column }}
+        </button>
+      </div>
     </div>
     <script>
       const app = Vue.createApp({
         data() {
           return {
+ 
+            numberSelected: 0,
             array: [
               [1, 2, 3, 3, 3],
               [4, 4, 4, 7, 1],
@@ -30,12 +59,32 @@
             ],
           };
         },
+        methods: {
+          onChange(e) {
+            this.numberSelected = Number(e.target.value);
+          },
+
+          makeButtonClass(number) {
+            if (this.numberSelected === 0) {
+              return "";
+            }
+            return number === this.numberSelected ? "active" : "disactive";
+          },
+
+          makeDisabledAttr(number) {
+            return number !== this.numberSelected;
+          },
+
+          message(number) {
+            alert(number);
+          },
+        },
         computed: {
           GetUniqueNumbers() {
             let uniqueNums = [];
             let gameArray = this.array.flat();
             for (let i = 0; i < gameArray.length; i++) {
-              if (!(gameArray[i] in uniqueNums)) {
+              if (!uniqueNums.includes(gameArray[i])) {
                 uniqueNums.push(gameArray[i]);
               }
             }

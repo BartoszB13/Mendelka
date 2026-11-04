@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+    <style>
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+
+      .row + .row {
+        margin-top: 10px;
+      }
+
+      .row > button {
+        width: 40px;
+        aspect-ratio: 1;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        flex-shrink: 0;
+      }
+      .disabled {
+        color: lightgray;
+      }
+      .active {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <select v-model="selectedType">
+        <option value="">Wybierz grupe</option>
+        <option v-for="(price,type) in prices" :value="type" :key="type">
+          {{type}}
+        </option>
+      </select>
+      <div v-for="row in Venue" class="row">
+        <button
+          v-for="seat in row"
+          :key="seat.id"
+          :disabled="isDisabled(seat.zone)"
+          :class="isDisabled(seat.zone) ? 'disabled' : 'active'"
+          v-on:click="buySeat(seat)"
+        >
+          {{seat.id}}
+        </button>
+      </div>
+      <div v-if="basket.length>0">
+        <h1>Koszyk</h1>
+        <p>Suma całkowita {{totalCost}}PLN</p>
+        <ul>
+          <li v-for="boughtSeat in basket">
+            {{boughtSeat.id}} | Strefa
+            {{boughtSeat.zone}}({{boughtSeat.price}}PLN)
+          </li>
+        </ul>
+      </div>
+      <p v-else>Brak Produktów</p>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            disabled: false,
+            basket: [],
+            selectedType: "",
+            totalCost: 0,
+            prices: {
+              VIP: 250,
+              Standard: 150,
+              Balkon: 80,
+            },
+            Venue: [
+              [
+                { id: "A1", zone: "Standard" },
+                { id: "A2", zone: "Standard" },
+                { id: "A3", zone: "VIP" },
+                { id: "A4", zone: "VIP" },
+                { id: "A5", zone: "VIP" },
+                { id: "A6", zone: "VIP" },
+                { id: "A7", zone: "VIP" },
+                { id: "A8", zone: "VIP" },
+                { id: "A9", zone: "Standard" },
+                { id: "A10", zone: "Standard" },
+              ],
+              [
+                { id: "B1", zone: "Standard" },
+                { id: "B2", zone: "Standard" },
+                { id: "B3", zone: "VIP" },
+                { id: "B4", zone: "VIP" },
+                { id: "B5", zone: "VIP" },
+                { id: "B6", zone: "VIP" },
+                { id: "B7", zone: "VIP" },
+                { id: "B8", zone: "VIP" },
+                { id: "B9", zone: "Standard" },
+                { id: "B10", zone: "Standard" },
+              ],
+              [
+                { id: "C1", zone: "Standard" },
+                { id: "C2", zone: "Standard" },
+                { id: "C3", zone: "Standard" },
+                { id: "C4", zone: "Standard" },
+                { id: "C5", zone: "Standard" },
+                { id: "C6", zone: "Standard" },
+                { id: "C7", zone: "Standard" },
+                { id: "C8", zone: "Standard" },
+                { id: "C9", zone: "Standard" },
+                { id: "C10", zone: "Standard" },
+              ],
+              [
+                { id: "D1", zone: "Standard" },
+                { id: "D2", zone: "Standard" },
+                { id: "D3", zone: "Standard" },
+                { id: "D4", zone: "Standard" },
+                { id: "D5", zone: "Standard" },
+                { id: "D6", zone: "Standard" },
+                { id: "D7", zone: "Standard" },
+                { id: "D8", zone: "Standard" },
+                { id: "D9", zone: "Standard" },
+                { id: "D10", zone: "Standard" },
+              ],
+              [
+                { id: "E1", zone: "Standard" },
+                { id: "E2", zone: "Standard" },
+                { id: "E3", zone: "Standard" },
+                { id: "E4", zone: "Standard" },
+                { id: "E5", zone: "Standard" },
+                { id: "E6", zone: "Standard" },
+                { id: "E7", zone: "Standard" },
+                { id: "E8", zone: "Standard" },
+                { id: "E9", zone: "Standard" },
+                { id: "E10", zone: "Standard" },
+              ],
+              [
+                { id: "F1", zone: "Standard" },
+                { id: "F2", zone: "Standard" },
+                { id: "F3", zone: "Standard" },
+                { id: "F4", zone: "Standard" },
+                { id: "F5", zone: "Standard" },
+                { id: "F6", zone: "Standard" },
+                { id: "F7", zone: "Standard" },
+                { id: "F8", zone: "Standard" },
+                { id: "F9", zone: "Standard" },
+                { id: "F10", zone: "Standard" },
+              ],
+              [
+                { id: "G1", zone: "Balkon" },
+                { id: "G2", zone: "Balkon" },
+                { id: "G3", zone: "Balkon" },
+                { id: "G4", zone: "Balkon" },
+                { id: "G5", zone: "Balkon" },
+                { id: "G6", zone: "Balkon" },
+                { id: "G7", zone: "Balkon" },
+                { id: "G8", zone: "Balkon" },
+                { id: "G9", zone: "Balkon" },
+                { id: "G10", zone: "Balkon" },
+              ],
+              [
+                { id: "H1", zone: "Balkon" },
+                { id: "H2", zone: "Balkon" },
+                { id: "H3", zone: "Balkon" },
+                { id: "H4", zone: "Balkon" },
+                { id: "H5", zone: "Balkon" },
+                { id: "H6", zone: "Balkon" },
+                { id: "H7", zone: "Balkon" },
+                { id: "H8", zone: "Balkon" },
+                { id: "H9", zone: "Balkon" },
+                { id: "H10", zone: "Balkon" },
+              ],
+              [
+                { id: "I1", zone: "Balkon" },
+                { id: "I2", zone: "Balkon" },
+                { id: "I3", zone: "Balkon" },
+                { id: "I4", zone: "Balkon" },
+                { id: "I5", zone: "Balkon" },
+                { id: "I6", zone: "Balkon" },
+                { id: "I7", zone: "Balkon" },
+                { id: "I8", zone: "Balkon" },
+                { id: "I9", zone: "Balkon" },
+                { id: "I10", zone: "Balkon" },
+              ],
+              [
+                { id: "J1", zone: "Balkon" },
+                { id: "J2", zone: "Balkon" },
+                { id: "J3", zone: "Balkon" },
+                { id: "J4", zone: "Balkon" },
+                { id: "J5", zone: "Balkon" },
+                { id: "J6", zone: "Balkon" },
+                { id: "J7", zone: "Balkon" },
+                { id: "J8", zone: "Balkon" },
+                { id: "J9", zone: "Balkon" },
+                { id: "J10", zone: "Balkon" },
+              ],
+            ],
+          };
+        },
+        methods: {
+          isDisabled(seatZone) {
+            return seatZone !== this.selectedType;
+          },
+          buySeat(seat) {
+            const seatPrice = Number(this.prices[seat.zone]);
+
+            this.totalCost += seatPrice;
+
+            this.basket.push({
+              ...seat,
+              price: this.prices[seat.zone],
+            });
+
+            alert(seatPrice);
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

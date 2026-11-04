@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+    <style>
+      th,
+      td {
+        padding: 10px;
+        font-weight: 100;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <table v-if="products.length>0">
+        <tr>
+          <th>lp.</th>
+          <th>name</th>
+          <th>price</th>
+          <th>state</th>
+        </tr>
+        <tr v-for="(product,index) in products">
+          <td>{{index + 1}}</td>
+          <td>{{product.product}}</td>
+          <td>{{product.price}}</td>
+          <td>
+            <button v-on:click="addItemToBasket(index)">
+              {{product.selected}}
+            </button>
+          </td>
+        </tr>
+      </table>
+      <button @click="BubleSort(products, 'price')">Sortuj według ceny</button>
+      <button @click="BubleSort(products, 'product')">
+        Sortuj według nazwy
+      </button>
+      <button @click="BubleSort(products, 'selected')">
+        Sortuj według koszyka
+      </button>
+
+      <div v-if="basket.length>0">
+        <h1>Koszyk</h1>
+        <div>
+          <div v-for="basketProduct in basket">{{basketProduct.product}}</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            basket: [],
+            products: [
+              { product: "książka", price: 2100, selected: "dodaj do koszyka" },
+              {
+                product: "płyta CD",
+                price: 3200,
+                selected: "dodaj do koszyka",
+              },
+              { product: "mleko", price: 20, selected: "dodaj do koszyka" },
+              { product: "buty", price: 400, selected: "dodaj do koszyka" },
+              { product: "buty", price: 234, selected: "dodaj do koszyka" },
+            ],
+          };
+        },
+        methods: {
+          BubleSort(arr, sortBy) {
+            let swapped;
+
+            do {
+              swapped = false;
+
+              for (let i = 0; i < arr.length - 1; i++) {
+                if (arr[i][sortBy] < arr[i + 1][sortBy]) {
+                  const temp = arr[i];
+                  arr[i] = arr[i + 1];
+                  arr[i + 1] = temp;
+
+                  swapped = true;
+                }
+              }
+            } while (swapped);
+          },
+
+          addItemToBasket(productIndex) {
+            const product = this.products[productIndex];
+            const IndexOfProduct = this.basket.indexOf(product);
+
+            if (IndexOfProduct !== -1) {
+              this.basket.splice(IndexOfProduct, 1);
+              product.selected = "Dodaj do Koszyka";
+            } else {
+              this.basket.push(product);
+              product.selected = "Usuń Produkt";
+            }
+          },
+        },
+        computed: {},
+      }).mount("#app");
+    </script>
+  </body>
+</html>
