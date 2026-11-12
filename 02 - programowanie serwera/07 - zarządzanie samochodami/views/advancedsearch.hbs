@@ -1,7 +1,9 @@
 <h1><code>Advanced Search</code></h1>
 
 <div class="container" id="main">
+
   <div class="container">
+
     <form method="post" action="/AddMultipleCars">
       <select name="addCarCount">
         <option value="1">1 Samochod</option>
@@ -12,24 +14,33 @@
       </select>
       <button type="submit">Prześlij</button>
     </form>
+
   </div>
+
   <div>
-    <form method="get" action="/AdvancedSearchCars">
-      <div class="container">
-        <label>Od Ceny : </label>
-        <input type="range" min="2011" max="2027" />
-        <label>Do Ceny : </label>
-        <input type="range" min="2011" max="2027" />
-      </div>
+
+    <form method="get" action="/AdvancedCarFilter">
+
       <div class="container">
         <label>Od roku: </label>
-        <input type="range" min="46000" max="106000" />
+        <input type="range" min="2011" max="2027" name="MinCarProductionYear" />
         <label>Do roku: </label>
-        <input type="range" min="46000" max="106000" />
+        <input type="range" min="2011" max="2027" name="MaxCarProductionYear" />
       </div>
+
+      <div class="container">
+        <label>Od Ceny : </label>
+        <input type="range" min="46000" max="106000" name="MinCarPrice" />
+        <label>Do Ceny : </label>
+        <input type="range" min="46000" max="106000" name="MaxCarPrice" />
+      </div>
+
       <button type="submit">Filtruj</button>
+
     </form>
+
   </div>
+
 </div>
 
 <table>
@@ -40,6 +51,8 @@
     <th>napęd 4x4</th>
     <th>model</th>
     <th>Ubezpieczony</th>
+    <th>Cena</th>
+    <th>Rocznik</th>
   </tr>
 
   {{#each context}}
@@ -61,6 +74,12 @@
       </td>
       <td>
         {{Ubezpieczony}}
+      </td>
+      <td>
+        {{Cena}}
+      </td>
+      <td>
+        {{Rocznik}}
       </td>
     </tr>
   {{/each}}

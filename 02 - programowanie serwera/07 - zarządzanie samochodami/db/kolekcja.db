@@ -1,8 +1,110 @@
-{"Ubezpieczony":"Brak","Benzyzna":"nie","Uszkodozny":"tak","naped4":"tak","model":"Citroen C4","_id":"6DtfSGPOIsdQWrc9"}
-{"Ubezpieczony":"nie","Benzyzna":"tak","Uszkodozny":"tak","naped4":"tak","model":"Merolek","_id":"8f9ChWBD441rrqfR"}
-{"Ubezpieczony":"nie","Benzyzna":"nie","Uszkodozny":"tak","naped4":"Brak","model":"Citroen C4","_id":"9B7o7oQHvgZDJEMQ"}
-{"Ubezpieczony":"nie","Benzyzna":"tak","Uszkodozny":"nie","naped4":"nie","model":"Merolek","_id":"LX8GeUGyZr3yfagW"}
-{"Ubezpieczony":"tak","Benzyzna":"nie","Uszkodozny":"nie","naped4":"Brak","model":"Skoda","_id":"g04JPYTHqjVX253K"}
-{"Ubezpieczony":"nie","Benzyzna":"tak","Uszkodozny":"nie","naped4":"nie","model":"Skoda","_id":"mgp2qEst4oZE66kI"}
-{"Ubezpieczony":"nie","Benzyzna":"nie","Uszkodozny":"nie","naped4":"tak","model":"Merolek","_id":"s4T6I3UFzIHkWauB"}
-{"Ubezpieczony":"nie","Benzyzna":"tak","Uszkodozny":"nie","naped4":"nie","model":"Citroen C4","_id":"tlRBqu55OnNU2h2S"}
+{"model":"Skoda","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"nie","Cena":84551,"Rocznik":2018,"_id":"1RlcY51bJM7cXIUq"}
+{"model":"Merolek","Benzyzna":"nie","Uszkodozny":"nie","naped4":"nie","Ubezpieczony":"nie","Cena":80303,"Rocznik":2013,"_id":"1Ul76skNCa23eE5a"}
+{"model":"Skoda","Benzyzna":"tak","Uszkodozny":"tak","naped4":"BRAK","Ubezpieczony":"nie","Cena":102040,"Rocznik":2013,"_id":"2iEJiuXDXtepPB0q"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"BRAK","Cena":73670,"Rocznik":2026,"_id":"4LjhYwwVQZXJuPWw"}
+{"model":"Pegout","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"BRAK","Ubezpieczony":"BRAK","Cena":86011,"Rocznik":2025,"_id":"58W1uVShuNlhYFPj"}
+{"model":"Skoda","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"BRAK","Cena":58891,"Rocznik":2014,"_id":"6hk1gMHXYIAauwE7"}
+{"model":"Pegout","Benzyzna":"BRAK","Uszkodozny":"nie","naped4":"nie","Ubezpieczony":"tak","Cena":50221,"Rocznik":2013,"_id":"7rjF2fh3ro2v71YZ"}
+{"model":"Citroen C4","Benzyzna":"tak","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"nie","Cena":79732,"Rocznik":2013,"_id":"9FmJiYqoTz2OwLHj"}
+{"model":"Citroen C4","Benzyzna":"tak","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"BRAK","Cena":97959,"Rocznik":2013,"_id":"BTY2ahUDGGq0qLnY"}
+{"model":"Skoda","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"tak","Ubezpieczony":"nie","Cena":84759,"Rocznik":2018,"_id":"Eqak4Mh7ZBnGBDzR"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"tak","naped4":"tak","Ubezpieczony":"BRAK","Cena":95544,"Rocznik":2017,"_id":"Ffm5cxl4zKCJCe7X"}
+{"model":"Skoda","Benzyzna":"tak","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"tak","Cena":96724,"Rocznik":2023,"_id":"GcNd0GIP9Gy1buyP"}
+{"model":"Citroen C4","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"tak","Cena":97809,"Rocznik":2022,"_id":"IFppPFazm0mOOHi2"}
+{"model":"Merolek","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"tak","Ubezpieczony":"BRAK","Cena":47165,"Rocznik":2021,"_id":"IOS6iiBjHHzV7mz3"}
+{"model":"Merolek","Benzyzna":"BRAK","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"tak","Cena":103709,"Rocznik":2023,"_id":"IXnuarpP0MwZeYBW"}
+{"model":"Skoda","Benzyzna":"nie","Uszkodozny":"tak","naped4":"BRAK","Ubezpieczony":"nie","Cena":95754,"Rocznik":2021,"_id":"KMkl0qMuewbn6cE4"}
+{"model":"Citroen C4","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"tak","Ubezpieczony":"tak","Cena":67816,"Rocznik":2021,"_id":"LonIMJUyAOyNWqQt"}
+{"model":"Pegout","Benzyzna":"BRAK","Uszkodozny":"tak","naped4":"tak","Ubezpieczony":"BRAK","Cena":47437,"Rocznik":2012,"_id":"ObfgbX6eO4o5nwLt"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"BRAK","Cena":47942,"Rocznik":2012,"_id":"P1mIvrzZhbzN0rQU"}
+{"model":"Pegout","Benzyzna":"tak","Uszkodozny":"tak","naped4":"nie","Ubezpieczony":"tak","Cena":89075,"Rocznik":2024,"_id":"TcCmTKW9diLK1FvE"}
+{"model":"Merolek","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"nie","Cena":77527,"Rocznik":2013,"_id":"UytRANT1Btzve8qT"}
+{"model":"Skoda","Benzyzna":"nie","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"tak","Cena":85840,"Rocznik":2021,"_id":"Va1KiacK8p6w8VTu"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"tak","naped4":"BRAK","Ubezpieczony":"tak","Cena":56917,"Rocznik":2017,"_id":"XReWVtpe31dx3JaY"}
+{"model":"Citroen C4","Benzyzna":"nie","Uszkodozny":"tak","naped4":"tak","Ubezpieczony":"nie","Cena":89844,"Rocznik":2024,"_id":"Yf607WHT6dmgXBso"}
+{"model":"Merolek","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"tak","Ubezpieczony":"nie","Cena":88938,"Rocznik":2021,"_id":"Ym9IZwQdDbpCspTN"}
+{"model":"Citroen C4","Benzyzna":"nie","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"BRAK","Cena":77288,"Rocznik":2025,"_id":"ZHFBF3oLUxIMDW8g"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"BRAK","naped4":"BRAK","Ubezpieczony":"BRAK","Cena":53839,"Rocznik":2015,"_id":"cQdUIiWOrSlsHz3h"}
+{"model":"Skoda","Benzyzna":"tak","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"nie","Cena":75689,"Rocznik":2025,"_id":"evA0rJe111Fp24zd"}
+{"model":"Pegout","Benzyzna":"BRAK","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"nie","Cena":91219,"Rocznik":2012,"_id":"g0fI9cHyTiUC6G5P"}
+{"model":"Pegout","Benzyzna":"tak","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"nie","Cena":46656,"Rocznik":2012,"_id":"gdpQlO5qhnvQ56Nc"}
+{"model":"Skoda","Benzyzna":"BRAK","Uszkodozny":"nie","naped4":"nie","Ubezpieczony":"tak","Cena":89439,"Rocznik":2021,"_id":"jfvVdlxCJnIhCX5X"}
+{"model":"Skoda","Benzyzna":"BRAK","Uszkodozny":"tak","naped4":"tak","Ubezpieczony":"nie","Cena":93104,"Rocznik":2016,"_id":"lcPCA2UC54M5CMJS"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"BRAK","Cena":80084,"Rocznik":2021,"_id":"luCgL09ebHGUa5Md"}
+{"model":"Skoda","Benzyzna":"tak","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"BRAK","Cena":63668,"Rocznik":2016,"_id":"lveehBZKTiROUp4p"}
+{"model":"Pegout","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"tak","Cena":88680,"Rocznik":2016,"_id":"pA1Y9jv5PcvhVCBA"}
+{"model":"Citroen C4","Benzyzna":"tak","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"BRAK","Cena":58897,"Rocznik":2023,"_id":"pLdEgqKIFmiPYXKy"}
+{"model":"Pegout","Benzyzna":"tak","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"tak","Cena":88900,"Rocznik":2026,"_id":"qmEvc3bAN3pShrTo"}
+{"model":"Pegout","Benzyzna":"tak","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"nie","Cena":54481,"Rocznik":2022,"_id":"r4QcgAoFR4AhMLN0"}
+{"model":"Pegout","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"BRAK","Ubezpieczony":"tak","Cena":86565,"Rocznik":2012,"_id":"rirpXPOr7fxlLQey"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"tak","naped4":"tak","Ubezpieczony":"nie","Cena":79205,"Rocznik":2025,"_id":"sHkT8ghGfCmJQdNp"}
+{"model":"Skoda","Benzyzna":"tak","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"nie","Cena":69523,"Rocznik":2014,"_id":"tbRNFXyiwVdsVsoi"}
+{"model":"Skoda","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"BRAK","Ubezpieczony":"tak","Cena":50281,"Rocznik":2018,"_id":"ueAQg8s6aCER9h3Z"}
+{"model":"Merolek","Benzyzna":"nie","Uszkodozny":"nie","naped4":"nie","Ubezpieczony":"BRAK","Cena":84200,"Rocznik":2014,"_id":"ueyYwYWbqLNVWmiq"}
+{"model":"Skoda","Benzyzna":"nie","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"BRAK","Cena":96060,"Rocznik":2015,"_id":"zlADPBVuMeOOOCOq"}
+{"$$deleted":true,"_id":"1RlcY51bJM7cXIUq"}
+{"$$deleted":true,"_id":"1Ul76skNCa23eE5a"}
+{"$$deleted":true,"_id":"2iEJiuXDXtepPB0q"}
+{"$$deleted":true,"_id":"4LjhYwwVQZXJuPWw"}
+{"$$deleted":true,"_id":"58W1uVShuNlhYFPj"}
+{"$$deleted":true,"_id":"6hk1gMHXYIAauwE7"}
+{"$$deleted":true,"_id":"7rjF2fh3ro2v71YZ"}
+{"$$deleted":true,"_id":"9FmJiYqoTz2OwLHj"}
+{"$$deleted":true,"_id":"BTY2ahUDGGq0qLnY"}
+{"$$deleted":true,"_id":"Eqak4Mh7ZBnGBDzR"}
+{"$$deleted":true,"_id":"Ffm5cxl4zKCJCe7X"}
+{"$$deleted":true,"_id":"GcNd0GIP9Gy1buyP"}
+{"$$deleted":true,"_id":"IFppPFazm0mOOHi2"}
+{"$$deleted":true,"_id":"IOS6iiBjHHzV7mz3"}
+{"$$deleted":true,"_id":"IXnuarpP0MwZeYBW"}
+{"$$deleted":true,"_id":"KMkl0qMuewbn6cE4"}
+{"$$deleted":true,"_id":"LonIMJUyAOyNWqQt"}
+{"$$deleted":true,"_id":"ObfgbX6eO4o5nwLt"}
+{"$$deleted":true,"_id":"P1mIvrzZhbzN0rQU"}
+{"$$deleted":true,"_id":"TcCmTKW9diLK1FvE"}
+{"$$deleted":true,"_id":"UytRANT1Btzve8qT"}
+{"$$deleted":true,"_id":"Va1KiacK8p6w8VTu"}
+{"$$deleted":true,"_id":"XReWVtpe31dx3JaY"}
+{"$$deleted":true,"_id":"Yf607WHT6dmgXBso"}
+{"$$deleted":true,"_id":"Ym9IZwQdDbpCspTN"}
+{"$$deleted":true,"_id":"ZHFBF3oLUxIMDW8g"}
+{"$$deleted":true,"_id":"cQdUIiWOrSlsHz3h"}
+{"$$deleted":true,"_id":"evA0rJe111Fp24zd"}
+{"$$deleted":true,"_id":"g0fI9cHyTiUC6G5P"}
+{"$$deleted":true,"_id":"gdpQlO5qhnvQ56Nc"}
+{"$$deleted":true,"_id":"jfvVdlxCJnIhCX5X"}
+{"$$deleted":true,"_id":"lcPCA2UC54M5CMJS"}
+{"$$deleted":true,"_id":"luCgL09ebHGUa5Md"}
+{"$$deleted":true,"_id":"lveehBZKTiROUp4p"}
+{"$$deleted":true,"_id":"pA1Y9jv5PcvhVCBA"}
+{"$$deleted":true,"_id":"pLdEgqKIFmiPYXKy"}
+{"$$deleted":true,"_id":"qmEvc3bAN3pShrTo"}
+{"$$deleted":true,"_id":"r4QcgAoFR4AhMLN0"}
+{"$$deleted":true,"_id":"rirpXPOr7fxlLQey"}
+{"$$deleted":true,"_id":"sHkT8ghGfCmJQdNp"}
+{"$$deleted":true,"_id":"tbRNFXyiwVdsVsoi"}
+{"$$deleted":true,"_id":"ueAQg8s6aCER9h3Z"}
+{"$$deleted":true,"_id":"ueyYwYWbqLNVWmiq"}
+{"$$deleted":true,"_id":"zlADPBVuMeOOOCOq"}
+{"model":"Skoda","Benzyzna":"tak","Uszkodozny":"tak","naped4":"BRAK","Ubezpieczony":"nie","Cena":72387,"Rocznik":2026,"_id":"jp9T7h6NSy5ZUoSW"}
+{"model":"Skoda","Benzyzna":"nie","Uszkodozny":"tak","naped4":"tak","Ubezpieczony":"BRAK","Cena":63962,"Rocznik":2022,"_id":"pfUdqEW1hKxBE59Q"}
+{"model":"Citroen C4","Benzyzna":"BRAK","Uszkodozny":"nie","naped4":"nie","Ubezpieczony":"BRAK","Cena":105067,"Rocznik":2011,"_id":"WkI7pnZIpfSb07ql"}
+{"model":"Pegout","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"BRAK","Cena":86498,"Rocznik":2023,"_id":"aVslNIqDAxckINre"}
+{"model":"Pegout","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"tak","Ubezpieczony":"BRAK","Cena":86020,"Rocznik":2012,"_id":"Nf8IzUrFYNKrTMK4"}
+{"model":"Merolek","Benzyzna":"nie","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"BRAK","Cena":103909,"Rocznik":2024,"_id":"JnlwzWYYyRQUQnrd"}
+{"model":"Citroen C4","Benzyzna":"BRAK","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"nie","Cena":103860,"Rocznik":2017,"_id":"ktlXcn1Ne45GYRy2"}
+{"model":"Citroen C4","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"BRAK","Ubezpieczony":"nie","Cena":71830,"Rocznik":2025,"_id":"Cc19DWj4gMyhITsB"}
+{"model":"Citroen C4","Benzyzna":"nie","Uszkodozny":"tak","naped4":"BRAK","Ubezpieczony":"nie","Cena":67213,"Rocznik":2011,"_id":"4Qg4YX0zCyKuqvxL"}
+{"model":"Citroen C4","Benzyzna":"BRAK","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"tak","Cena":89792,"Rocznik":2014,"_id":"OAxkQpy7CplBiJpx"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"tak","Cena":51199,"Rocznik":2023,"_id":"nZyl9Ha4aAnQGapn"}
+{"model":"Pegout","Benzyzna":"nie","Uszkodozny":"nie","naped4":"tak","Ubezpieczony":"tak","Cena":77519,"Rocznik":2024,"_id":"1IcdapDW6Jsoe7vb"}
+{"model":"Skoda","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"tak","Ubezpieczony":"BRAK","Cena":77991,"Rocznik":2014,"_id":"Znmxm6eVgn3T9TH4"}
+{"model":"Skoda","Benzyzna":"tak","Uszkodozny":"BRAK","naped4":"tak","Ubezpieczony":"nie","Cena":48833,"Rocznik":2021,"_id":"R24aITaOlSctbCvO"}
+{"model":"Citroen C4","Benzyzna":"tak","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"nie","Cena":74497,"Rocznik":2013,"_id":"oqBouxx40yXZuWeW"}
+{"model":"Pegout","Benzyzna":"nie","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"tak","Cena":53142,"Rocznik":2016,"_id":"V789tcVTxgbuP84I"}
+{"model":"Pegout","Benzyzna":"nie","Uszkodozny":"tak","naped4":"BRAK","Ubezpieczony":"nie","Cena":95650,"Rocznik":2016,"_id":"7o4UQMBAjJYxfawG"}
+{"model":"Citroen C4","Benzyzna":"tak","Uszkodozny":"nie","naped4":"nie","Ubezpieczony":"tak","Cena":93961,"Rocznik":2020,"_id":"FWyBnaqNcvet9oPQ"}
+{"model":"Merolek","Benzyzna":"tak","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"nie","Cena":55735,"Rocznik":2014,"_id":"4w5DIw57XfxbPMlz"}
+{"model":"Pegout","Benzyzna":"BRAK","Uszkodozny":"BRAK","naped4":"nie","Ubezpieczony":"nie","Cena":103342,"Rocznik":2025,"_id":"VPexIsQOd05BM8ht"}
+{"model":"Pegout","Benzyzna":"tak","Uszkodozny":"nie","naped4":"nie","Ubezpieczony":"nie","Cena":88140,"Rocznik":2012,"_id":"e6ZDZ2OAPU3Ezugh"}
+{"model":"Skoda","Benzyzna":"nie","Uszkodozny":"nie","naped4":"BRAK","Ubezpieczony":"nie","Cena":84515,"Rocznik":2023,"_id":"sO9mhNpAKltOIJey"}
