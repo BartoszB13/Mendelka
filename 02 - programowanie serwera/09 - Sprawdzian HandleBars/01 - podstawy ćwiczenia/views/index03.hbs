@@ -1,0 +1,32 @@
+{{subject}}
+
+<table>
+  <tr>
+    <th>
+      tytul
+    </th>
+    <th>
+      lang
+    </th>
+    <th>
+      author
+    </th>
+  </tr>
+  {{#each books}}
+    {{#if author}}
+      <tr>
+        <td>
+          {{title}}
+        </td>
+        <td>
+          {{lang}}
+        </td>
+        <td>
+          {{author}}
+        </td>
+      </tr>
+    {{else}}
+      <td colspan="3">Brak autora</td>
+    {{/if}}
+  {{/each}}
+</table>

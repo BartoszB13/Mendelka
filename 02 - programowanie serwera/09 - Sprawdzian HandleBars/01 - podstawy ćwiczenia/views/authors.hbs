@@ -1,0 +1,42 @@
+<form action="/GetCategorySelect">
+  <select name="category">
+    {{#each context.fields}}
+      <option value="{{name}}">{{name}}</option>
+    {{/each}}
+  </select>
+  <button type="submit">Wyslij</button>
+</form>
+
+<form action="/GetCategoryRadios">
+  {{#each context.fields}}
+    <input type="radio" name="category" value="{{name}}" />{{name}}
+    <br />
+  {{/each}}
+  <button type="submit">Wyslij</button>
+</form>
+
+{{#if filterResult}}
+  {{#each filterResult}}
+    {{name}}
+  {{/each}}
+{{/if}}
+
+{{#if message}}
+  <p>{{message}}</p>
+{{/if}}
+
+<form action="/GetCategoryCheckBox">
+  {{#each context.fields}}
+    <input type="checkbox" value="{{name}}" name="category" />{{name}}
+  {{/each}}
+  <button type="submit">Prześlij</button>
+</form>
+
+{{#each FilteredBooks}}
+  WYNIK
+  {{#each fields}}
+    {{label}},
+    {{value}}
+    <br />
+  {{/each}}
+{{/each}}
