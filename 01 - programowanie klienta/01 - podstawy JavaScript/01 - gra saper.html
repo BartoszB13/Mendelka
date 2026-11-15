@@ -1,426 +1,589 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minesweeper</title>
 
     <style>
-        .tile {
-            border: 1px solid;
-            width: 25px;
-            height: 25px;
-            float: left;
-            border-collapse: inherit;
-            box-sizing: border-box;
-            text-align: center;
-            line-height: 23px;
-            cursor: pointer;
-            user-select: none;
-        }
+      .tile {
+        border: 1px solid;
+        width: 24px;
+        height: 24px;
+        float: left;
+        box-sizing: border-box;
+        text-align: center;
+        line-height: 24px;
+        cursor: pointer;
+        user-select: none;
+      }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-        #formularz {
-            width: 220px;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid black;
-            padding: 15px;
-            margin: 1em;
-        }
+      body > * {
+        margin: 1em;
+      }
 
-        #formularz>* {
-            margin-bottom: 1em;
-        }
+      #usernameForm {
+        display: flex;
+        flex-direction: row;
+      }
+      #usernameForm > * {
+        margin: 4px;
+      }
+
+      #timer {
+        border: 1px solid black;
+      }
+
+      #timer {
+        background: #f4f4f4;
+        border: 1px solid #222;
+        border-radius: 6px;
+
+        font-family: "Courier New", monospace;
+        font-size: 32px;
+        font-weight: bold;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 3px;
+        text-align: center;
+        line-height: 1;
+      }
+
+      #timer:empty {
+        display: none;
+      }
+
+      #form {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid black;
+        padding: 16px;
+        margin: 1em;
+      }
+
+      #form > * {
+        margin-bottom: 1em;
+      }
+
+      #leaderboard {
+        border: 1px solid black;
+        padding: 4px;
+      }
+
+      #leaderboard > * {
+        border: 1px solid black;
+        margin: 4px;
+        padding: 4px;
+      }
+
+      #leaderboard > :first-child {
+        color: red;
+      }
+
+      #leaderboard:empty {
+        display: none;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
-
+  <body>
     <script>
+      let isGameOngoing = true;
+      let gameBoard = [];
+      let minePositions = [];
 
-        let isGameOngoing = true;
+      let revealedTilesCount = 0;
+      let tilesToWin;
 
-        let gameBoard = []; // 
-        let minePositions = [];
-        let leaderBoard = []
+      let gameBeginning = 0;
+      let timerInterval = null;
 
-        let revealedTilesCount = 0;
-        let tilesToWin;
+      // Inicjalizacja formularza i kontenerów
+      function init() {
+        const boardContainer = document.createElement("div");
+        boardContainer.id = "board";
 
-        let game_beginign = 0
-        let timer_interval = null
+        const boardSizeInput = document.createElement("input");
+        boardSizeInput.type = "number";
+        boardSizeInput.min = 4;
+        boardSizeInput.value = 10;
 
-        //DO ZROBIENIA:
-        // Udoskonalić funkcje wygraj przegraj
-        // FUnkcja wygraj nie istnieje i jest zawarta bezposrednio w kodzie
-        // Funkjc aygraj nie pokazuje min 
-        // Funcja timer Zrobiona
+        const mineCountInput = document.createElement("input");
+        mineCountInput.type = "number";
+        mineCountInput.min = 1;
+        mineCountInput.value = 10;
 
+        const controlsContainer = document.createElement("div");
+        controlsContainer.id = "form";
 
-        //HTML 
+        const boardSizeLabel = document.createTextNode("Rozmiar planszy: ");
+        const mineCountLabel = document.createTextNode("Bomby: ");
 
+        const generateButton = document.createElement("button");
+        generateButton.innerText = "GENERUJ!";
 
-        // Inicjalizacja Formularza
+        const clearCookiesButton = document.createElement("button");
+        clearCookiesButton.id = "clearCookiesButton";
+        clearCookiesButton.innerText = "Wyczyść wszystkie cookies";
 
-        function init() {
-            const boardContainer = document.createElement("div");
-            boardContainer.id = "board";
+        clearCookiesButton.onclick = function () {
+          deleteAllCookies();
+          updateLeaderboard();
+        };
 
-            const boardSizeInput = document.createElement("input");
-            boardSizeInput.type = "number";
-            boardSizeInput.min = 4;
-            boardSizeInput.value = 10;
+        // Kontener leaderboardu tworzymy tylko raz.
+        const leaderboardContainer = createLeaderboard();
 
-            const mineCountInput = document.createElement("input");
-            mineCountInput.type = "number";
-            mineCountInput.min = 1;
-            mineCountInput.value = 10;
+        const timer = document.createElement("div");
+        timer.id = "timer";
 
-            const controlsContainer = document.createElement("div");
-            controlsContainer.id = "formularz"
+        generateButton.onclick = function () {
+          const mineCount = Number(mineCountInput.value);
+          const boardSize = Number(boardSizeInput.value);
 
-            const boardSizeLabel = document.createTextNode("Rozmiar planszy: ");
-            const mineCountLabel = document.createTextNode("Bomby: ");
-            const generateButton = document.createElement("button");
+          if (
+            !Number.isInteger(boardSize) ||
+            boardSize < 4 ||
+            boardSize * boardSize <= mineCount
+          ) {
+            alert("Wpisz poprawny rozmiar planszy!");
+            return;
+          }
 
-            const timer = document.createElement("div")
-            timer.id = 'timer'
+          if (!Number.isInteger(mineCount) || mineCount <= 0) {
+            alert("Wpisz co najmniej jedną bombę!");
+            return;
+          }
 
-            generateButton.innerText = "GENERUJ!";
+          tilesToWin = boardSize ** 2 - mineCount;
+          revealedTilesCount = 0;
+          isGameOngoing = true;
 
-            generateButton.onclick = function () {
-                tilesToWin = (Number(boardSizeInput.value) ** 2) - Number(mineCountInput.value);
-                revealedTilesCount = 0;
-                console.log(tilesToWin);
+          updateTime(timer);
+          generateGameBoard(boardSize);
+          placeMines(mineCount);
+          renderBoard(mineCount, boardSize);
+        };
 
-                update_time(timer)
+        controlsContainer.append(
+          boardSizeLabel,
+          boardSizeInput,
+          mineCountLabel,
+          mineCountInput,
+          clearCookiesButton,
+          generateButton,
+          timer,
+        );
 
-                const mineCount = Number(mineCountInput.value);
-                const boardSize = Number(boardSizeInput.value);
+        document.body.append(
+          controlsContainer,
+          boardContainer,
+          leaderboardContainer,
+        );
 
-                if (
-                    !Number.isInteger(boardSize) ||
-                    boardSize < 4 ||
-                    boardSize * boardSize <= mineCount
-                ) {
-                    alert("Wpisz poprawny rozmiar planszy!");
-                    return;
-                }
+        // Odczyt zapisanych wyników po dodaniu kontenera do strony.
+        updateLeaderboard();
+      }
 
-                if (
-                    !Number.isInteger(mineCount) ||
-                    mineCount <= 0
-                ) {
-                    alert("Wpisz Wiecej niz jedna bombe");
-                    return;
-                }
+      // Generowanie planszy 2D
+      function generateGameBoard(boardSize) {
+        gameBoard = [];
 
-                isGameOngoing = true;
+        for (let row = 0; row < boardSize; row++) {
+          gameBoard[row] = [];
 
-                generateGameBoard(boardSize);
-                placeMines(mineCount);
-                renderBoard();
-            };
-
-            controlsContainer.append(
-                boardSizeLabel,
-                boardSizeInput,
-                mineCountLabel,
-                mineCountInput,
-                generateButton,
-                timer
-            );
-            document.body.append(controlsContainer, boardContainer);
+          for (let column = 0; column < boardSize; column++) {
+            gameBoard[row][column] = 0;
+          }
         }
+      }
 
-        //Generowanie planszy 2D
+      // Rozmieszczenie min
+      function placeMines(mineCount) {
+        minePositions = [];
 
-        function generateGameBoard(boardSize) {
-            gameBoard = [];
+        while (minePositions.length < mineCount) {
+          const column = Math.floor(Math.random() * gameBoard.length);
+          const row = Math.floor(Math.random() * gameBoard.length);
 
-            for (let row = 0; row < boardSize; row++) {
-                gameBoard[row] = [];
+          if (gameBoard[row][column] === 0) {
+            gameBoard[row][column] = 1;
 
-                for (let column = 0; column < boardSize; column++) {
-                    gameBoard[row][column] = 0;
-                }
-            }
+            const minePosition = { column, row };
+            minePositions.push(minePosition);
+          }
         }
+      }
 
+      // Wyświetlenie planszy
+      function renderBoard(mineCount, boardSize) {
+        const boardContainer = document.getElementById("board");
 
-        //PLANSZA
+        boardContainer.innerHTML = "";
+        boardContainer.style.width = gameBoard.length * 25 + "px";
 
-        //Rozmieszczenie min
+        for (let row = 0; row < gameBoard.length; row++) {
+          for (let column = 0; column < gameBoard[row].length; column++) {
+            const tile = document.createElement("div");
 
-        function placeMines(mineCount) {
-            minePositions = []; //RESET POZYCJI MIN
+            tile.dataset.column = column;
+            tile.dataset.row = row;
+            tile.dataset.revealed = "false";
+            tile.classList.add("tile");
 
-            while (minePositions.length < mineCount) {
-                const column = Math.floor(Math.random() * gameBoard.length);
-                const row = Math.floor(Math.random() * gameBoard.length);
+            tile.addEventListener("click", function () {
+              if (!isGameOngoing) return;
+              if (this.dataset.revealed === "true") return;
+              if (this.style.backgroundColor === "green") return;
 
-                if (gameBoard[row][column] === 0) {
-                    gameBoard[row][column] = 1;
+              const tileColumn = Number(this.dataset.column);
+              const tileRow = Number(this.dataset.row);
 
-                    const minePosition = { column, row };
-                    minePositions.push(minePosition);
-                }
-            }
-
-            console.table(gameBoard);
-            console.log(minePositions);
-        }
-
-        //Inicjacja planszy
-
-        function renderBoard() {
-            const boardContainer = document.getElementById("board");
-
-
-
-            boardContainer.innerHTML = "";
-
-            boardContainer.style.width = (gameBoard.length * 25) + "px";
-
-            for (let row = 0; row < gameBoard.length; row++) {
-                for (let column = 0; column < gameBoard[row].length; column++) {
-
-                    const tile = document.createElement("div");
-
-                    tile.setAttribute("data-column", column);
-                    tile.setAttribute("data-row", row);
-
-                    tile.dataset.revealed = "false";
-
-                    tile.classList.add("tile");
-
-                    tile.addEventListener("click", function () {
-
-                        if (!isGameOngoing) return; //Czy gra się toczy/ NIE zwróć nic
-
-                        if (this.dataset.revealed === "true") return; //Czy pole jest odkryte / TAK zwróć nic
-
-                        if (this.style.backgroundColor === "green") return; // Czy pole jest oflagowane / TAK zwróć nic
-
-                        const tileColumn = Number(this.dataset.column);
-                        const tileRow = Number(this.dataset.row);
-
-                        if (gameBoard[tileRow][tileColumn] === 1) {
-                            gameLost();
-                            return;
-                        }
-
-                        revealTile(tileRow, tileColumn); //Odsłonięcie pól wokół zaznczonego pola
-
-                        console.log(revealedTilesCount);
-
-                        if (tilesToWin === revealedTilesCount) { // Primytywna funckja wygranej
-
-                            finishingTime = stop_timer()
-
-
-
-                            alert(`Gra WYGRANAA GRATULACJE. Twoj końcowy czas to  ${finishingTime.minutes}:${finishingTime.seconds}`);
-                            isGameOngoing = false;
-                            return;
-                        }
-                    });
-
-                    tile.addEventListener("contextmenu", function (event) { //Oflagowanie pola
-                        event.preventDefault();
-
-                        if (!isGameOngoing) return;
-                        if (this.dataset.revealed === "true") return;
-
-                        const isFlagged = this.style.backgroundColor === "green";
-
-                        if (!isFlagged) {
-                            this.style.backgroundColor = "green";
-                        } else {
-                            this.style.backgroundColor = "";
-                        }
-                    });
-
-                    boardContainer.append(tile);
-                }
-            }
-        }
-
-
-        // OBSŁUGA POLA
-
-        //Funkcje pomocnicze
-
-        function isInsideBoard(row, column) {
-            return (
-                row >= 0 && row < gameBoard.length &&
-                column >= 0 && column < gameBoard.length
-            );
-        }
-
-
-        function getTileElement(row, column) {
-            return document.querySelector(`[data-column="${column}"][data-row="${row}"]`);
-        }
-
-        //Odsłoń pola
-
-        function revealTile(row, column) {
-            if (!isInsideBoard(row, column)) { return; }
-
-            const tile = getTileElement(row, column);
-
-            if (tile.dataset.revealed === "true") { return; }
-
-            if (tile.style.backgroundColor === "green") { return; }
-
-            tile.dataset.revealed = "true";
-            tile.style.backgroundColor = "#ddd";
-
-            revealedTilesCount += 1;
-
-            const minesAround = countMinesAround(column, row);
-
-            if (minesAround > 0) {
-                tile.innerText = minesAround;
+              if (gameBoard[tileRow][tileColumn] === 1) {
+                gameLost();
                 return;
-            }
+              }
 
-            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
-                for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
-                    revealTile(row + rowOffset, column + columnOffset);
-                }
-            }
-        }
+              revealTile(tileRow, tileColumn);
 
-        //Policz miny wokół pola 3x3
-
-        function countMinesAround(column, row) {
-            let minesAround = 0;
-
-            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
-                for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
-
-                    if (rowOffset === 0 && columnOffset === 0) {
-                        continue;
-                    }
-
-                    const neighbourColumn = Number(column) + columnOffset;
-                    const neighbourRow = Number(row) + rowOffset;
-
-                    if (
-                        neighbourColumn >= 0 && neighbourColumn < gameBoard.length &&
-                        neighbourRow >= 0 && neighbourRow < gameBoard.length
-                    ) {
-                        if (gameBoard[neighbourRow][neighbourColumn] === 1) {
-                            minesAround++;
-                        }
-                    }
-                }
-            }
-
-            return minesAround;
-        }
-
-        //STANY GRY
-
-        //Przegrana
-
-        function gameLost() {
-            if (!isGameOngoing) return;
-
-            isGameOngoing = false;
-
-            const selector = minePositions
-                .map(minePosition => `[data-column="${minePosition.column}"][data-row="${minePosition.row}"]`)
-                .join(", ");
-
-            const mineTiles = document.querySelectorAll(selector);
-
-            mineTiles.forEach(mineTile => {
-                mineTile.style.backgroundColor = "red";
+              if (tilesToWin === revealedTilesCount) {
+                gameWon(mineCount, boardSize);
+              }
             });
-            finishingTime = stop_timer()
 
-            alert(`Gra przegrana!!!! TWOOOJ KONCOWY CZAS ${finishingTime.minutes}:${finishingTime.seconds}`);
-        }
+            tile.addEventListener("contextmenu", function (event) {
+              event.preventDefault();
 
-        //Wygrana
+              if (!isGameOngoing) return;
+              if (this.dataset.revealed === "true") return;
 
-        function checkForWin() {
+              const isFlagged = this.style.backgroundColor === "green";
 
-        }
-
-        //CZAS
-
-        function get_time() {
-            let overallTimeInsec = Math.floor((Date.now() - game_beginign) / 1000);
-            let minutes = Math.floor(overallTimeInsec / 60)
-            let seconds = overallTimeInsec % 60
-
-            return { minutes, seconds, overallTimeInsec }
-        }
-
-        function update_time(clock) {
-            clearInterval(timer_interval)
-            game_beginign = Date.now()
-
-            timer_interval = setInterval(() => {
-                time = get_time()
-                clock.innerHTML = `${time.minutes} : ${time.seconds}`
-
-            }, 250);
-        }
-
-
-        function stop_timer() {
-            clearInterval(timer_interval)
-            return get_time()
-        }
-
-        function add_leader_cookies(timeResult) {
-            if (leaderBoard.length <= 10) {
-                let resultCookie = document.cookie = `czasWygranejWSekundach${leaderBoard.length + 1}=${timeResult};`
-
-                //dodac infomracje o indenfyfikatorze ciaseczka pozniej posortowac je w tablicy malejaco po warotsci parametru czas w wygranej i przezucic do html
-                leaderBoard.push(resultCookie)
-                return
-            }
-            leaderBoard.forEach(function (element, index) {
-                if (getCookie(element) > timeResult) {
-                    leaderBoard.push('ww')
-                    leaderBoard.pop()
-                }
+              if (!isFlagged) {
+                this.style.backgroundColor = "green";
+              } else {
+                this.style.backgroundColor = "";
+              }
             });
+
+            boardContainer.appendChild(tile);
+          }
+        }
+      }
+
+      // Sprawdzenie, czy pole znajduje się na planszy
+      function isInsideBoard(row, column) {
+        return (
+          row >= 0 &&
+          row < gameBoard.length &&
+          column >= 0 &&
+          column < gameBoard.length
+        );
+      }
+
+      // Pobranie elementu odpowiadającego polu
+      function getTileElement(row, column) {
+        return document.querySelector(
+          `[data-column="${column}"][data-row="${row}"]`,
+        );
+      }
+
+      // Odsłonięcie pola
+      function revealTile(row, column) {
+        if (!isInsideBoard(row, column)) return;
+
+        const tile = getTileElement(row, column);
+
+        if (tile.dataset.revealed === "true") return;
+        if (tile.style.backgroundColor === "green") return;
+
+        tile.dataset.revealed = "true";
+        tile.style.backgroundColor = "#ddd";
+
+        revealedTilesCount += 1;
+
+        const minesAround = countMinesAround(column, row);
+
+        if (minesAround > 0) {
+          tile.innerText = minesAround;
+          return;
         }
 
-        function getCookie(cname) {
-            let name = cname + "=";
-            let decodedCookie = (document.cookie);
-            let ca = decodedCookie.split(";");
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == " ") {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return decodeURIComponent(c.substring(name.length, c.length));
-                }
+        for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+          for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
+            revealTile(row + rowOffset, column + columnOffset);
+          }
+        }
+      }
+
+      // Liczenie min wokół pola
+      function countMinesAround(column, row) {
+        let minesAround = 0;
+
+        for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+          for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
+            if (rowOffset === 0 && columnOffset === 0) continue;
+
+            const neighbourColumn = column + columnOffset;
+            const neighbourRow = row + rowOffset;
+
+            if (
+              isInsideBoard(neighbourRow, neighbourColumn) &&
+              gameBoard[neighbourRow][neighbourColumn] === 1
+            ) {
+              minesAround++;
             }
-            return "";
+          }
         }
 
+        return minesAround;
+      }
 
-        init();
+      // Przegrana
+      function gameLost() {
+        if (!isGameOngoing) return;
+
+        isGameOngoing = false;
+
+        minePositions.forEach((minePosition) => {
+          const mineTile = getTileElement(
+            minePosition.row,
+            minePosition.column,
+          );
+
+          mineTile.style.backgroundColor = "red";
+        });
+
+        const finishingTime = stopTimer();
+
+        alert(
+          `Gra przegrana! Końcowy czas: ` +
+            `${finishingTime.minutes}:${finishingTime.seconds}.${finishingTime.miliseconds}`,
+        );
+      }
+
+      // Wygrana
+      function gameWon(mineCount, boardSize) {
+        if (!isGameOngoing) return;
+
+        isGameOngoing = false;
+
+        // Zatrzymujemy czas przed oczekiwaniem na nazwę użytkownika.
+        const getFinishingTimeValues = stopTimer();
+        const finishingTime =
+          String(getFinishingTimeValues.minutes).padStart(2, "0") +
+          ":" +
+          String(getFinishingTimeValues.seconds).padStart(2, "0") +
+          "." +
+          String(getFinishingTimeValues.miliseconds).padStart(3, "0");
+
+        const usernameContainer = document.createElement("div");
+        const message = document.createElement("p");
+        const usernameInput = document.createElement("input");
+        usernameInput.placeholder = "Wpisz nazwe użytkownika";
+
+        usernameInput.style.display = "block";
+
+        const submitUsernameButton = document.createElement("button");
+        submitUsernameButton.innerText = "Prześlij";
+
+        submitUsernameButton.onclick = function () {
+          const username = usernameInput.value;
+
+          message.innerText = `Dziękujemy ${username} za przesłanie wyniku.`;
+
+          saveScore(finishingTime, mineCount, boardSize, username);
+
+          // Aktualizujemy istniejące wiersze zamiast tworzyć nowy kontener.
+          updateLeaderboard();
+
+          submitUsernameButton.disabled = true;
+          usernameContainer.remove();
+
+          setTimeout(function () {
+            message.remove();
+          }, 5000);
+        };
+
+        usernameContainer.append(usernameInput, submitUsernameButton);
+        usernameContainer.id = "usernameForm";
+
+        document.body.append(usernameContainer, message);
+
+        alert(`Gra wygrana! Końcowy czas: ` + `${finishingTime}`);
+      }
+
+      // Aktualny czas gry
+      function getTime() {
+        const overallTimeInSec = Math.floor(
+          (Date.now() - gameBeginning) / 1000,
+        );
+
+        const minutes = Math.floor(overallTimeInSec / 60);
+        const seconds = overallTimeInSec % 60;
+        const miliseconds = Math.round(
+          ((Date.now() - gameBeginning) / 1000 - seconds) * 1000,
+        );
+
+        console.log(miliseconds);
+
+        return { minutes, seconds, overallTimeInSec, miliseconds };
+      }
+
+      function updateTime(timer) {
+        clearInterval(timerInterval);
+
+        gameBeginning = Date.now();
+        timer.textContent = "00" + ":" + "00";
+
+        timerInterval = setInterval(() => {
+          const time = getTime();
+          timer.textContent =
+            String(time.minutes).padStart(2, "0") +
+            ":" +
+            String(time.seconds).padStart(2, "0");
+        }, 250);
+      }
+
+      function stopTimer() {
+        clearInterval(timerInterval);
+
+        const finalTime = getTime();
+
+        return finalTime;
+      }
+
+      // Odczyt leaderboardu z cookie
+      function getLeaderboard() {
+        const cookies = document.cookie.split(";");
+
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+
+          if (cookie.startsWith("leaderboard=")) {
+            const cookieValue = cookie.substring("leaderboard=".length);
+
+            try {
+              const leaderboard = JSON.parse(decodeURIComponent(cookieValue));
+
+              return Array.isArray(leaderboard) ? leaderboard : [];
+            } catch {
+              return [];
+            }
+          }
+        }
+
+        return [];
+      }
+
+      // Wywołujemy tylko raz, w init().
+      function createLeaderboard() {
+        const leaderboardContainer = document.createElement("div");
+        leaderboardContainer.id = "leaderboard";
+
+        return leaderboardContainer;
+      }
+
+      // Używamy tego samego kontenera i istniejących wierszy.
+      function updateLeaderboard() {
+        const leaderboardContainer = document.getElementById("leaderboard");
+        const leaderboard = getLeaderboard();
+
+        leaderboard.forEach((player, index) => {
+          let leaderboardRow = leaderboardContainer.children[index];
+
+          // Nowy element powstaje tylko wtedy, gdy brakuje wiersza.
+          if (!leaderboardRow) {
+            leaderboardRow = document.createElement("div");
+            leaderboardContainer.appendChild(leaderboardRow);
+          }
+
+          const rowText =
+            `${index + 1}. Nazwa użytkownika: ${player.username ?? "—"}, ` +
+            `Czas: ${player.score}[m:s.ms], ` +
+            `Liczba bomb: ${player.bombCount}, ` +
+            `Rozmiar planszy: ${player.GameMode ?? "—"}`;
+
+          // Zmieniamy tekst tylko wtedy, gdy wynik na tej pozycji się zmienił.
+          if (leaderboardRow.textContent !== rowText) {
+            leaderboardRow.textContent = rowText;
+          }
+        });
+
+        // Usuwamy nadmiarowe wiersze, np. po wyczyszczeniu cookies.
+        while (leaderboardContainer.children.length > leaderboard.length) {
+          leaderboardContainer.lastElementChild.remove();
+        }
+      }
+
+      // Dodawanie wyniku i zapis leaderboardu do cookie
+      function saveScore(score, mineCount, boardSize, username) {
+        const leaderboard = getLeaderboard();
+
+        leaderboard.push({
+          score: score,
+          bombCount: mineCount,
+          // Zachowane nazwy pól zapewniają odczyt starszych cookies.
+          // GameMode przechowuje długość boku planszy.
+          GameMode: boardSize,
+          username: username,
+        });
+
+        // Najpierw więcej bomb, przy remisie krótszy czas.
+        leaderboard.sort(
+          (a, b) => b.bombCount - a.bombCount || a.score - b.score,
+        );
+
+        const topScores = leaderboard.slice(0, 10);
+        const cookieValue = encodeURIComponent(JSON.stringify(topScores));
+
+        // Zapis na 4 minuty, zgodnie z wcześniejszym kodem.
+        document.cookie = "leaderboard=" + cookieValue + "; max-age=" + 60 * 4;
+
+        return topScores;
+      }
+
+      // Source: https://stackoverflow.com/a/179514
+      // Posted by Robert J. Walker, modified by community.
+      // Retrieved 2026-11-14, License: CC BY-SA 4.0
+      // Usuwa dostępne dla JS cookies na domyślnej ścieżce i na "/".
+      function deleteAllCookies() {
+        document.cookie.split(";").forEach((cookie) => {
+          const equalsPosition = cookie.indexOf("=");
+
+          const cookieName = (
+            equalsPosition > -1 ? cookie.substring(0, equalsPosition) : cookie
+          ).trim();
+
+          if (!cookieName) return;
+
+          document.cookie = cookieName + "=; max-age=0";
+          document.cookie = cookieName + "=; max-age=0; path=/";
+        });
+      }
+
+      function getCookie(cookieName) {
+        const cookiePrefix = cookieName + "=";
+        const cookies = document.cookie.split(";");
+
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+
+          if (cookie.startsWith(cookiePrefix)) {
+            return decodeURIComponent(cookie.substring(cookiePrefix.length));
+          }
+        }
+
+        return "";
+      }
+
+      init();
     </script>
-</body>
-
+  </body>
 </html>
